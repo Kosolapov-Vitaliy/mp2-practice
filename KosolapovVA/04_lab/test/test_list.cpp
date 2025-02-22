@@ -3,7 +3,7 @@
 
 TEST(test_list, can_create_list)
 {
-    ASSERT_NO_THROW(List<int> s);
+    ASSERT_NO_THROW(List<int> a);
 }
 
 TEST(test_list, can_create_copied_list)

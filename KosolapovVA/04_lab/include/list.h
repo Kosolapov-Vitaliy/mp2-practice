@@ -22,7 +22,7 @@ private:
     TNode* pLast;
     TNode* pStop;
 public:
-    List() : pFirst(nullptr), pCurr(nullptr), pPrev(nullptr), pLast(nullptr), pStop(nullptr) {};
+    List(): pFirst(nullptr), pCurr(nullptr), pPrev(nullptr), pLast(nullptr), pStop(nullptr) {};
     List(const List<T>& list);
     ~List();
     void DelList();
