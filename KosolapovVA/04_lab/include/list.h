@@ -3,40 +3,53 @@
 
 #include <iostream>
 #include <string>
+template <typename T>
+struct TNode
+{
+    TNode* pNext;
+    T data;
+    int key;
+    TNode() :data(0), key(0) pNext(nullptr) {}
+    TNode(const T& x, const int& y) : data(x), key(y), pNext(nullptr) {}
+};
 
 template <typename T>
 class List
 {
 private:
-    struct TNode
-    {
-        TNode* pNext;
-        T data;
-        int key;
-        TNode() :data(0),key(0) pNext(nullptr) {}
-        TNode(const T& x, const int& y) : data(x), key(y), pNext(nullptr) {}
-    };
-    TNode* pFirst;
-    TNode* pCurr;
-    TNode* pPrev;
-    TNode* pLast;
-    TNode* pStop;
+    TNode<T>* pFirst;
+    TNode<T>* pCurr;
+    TNode<T>* pPrev;
+    TNode<T>* pLast;
+    TNode<T>* pStop;
 public:
     List(): pFirst(nullptr), pCurr(nullptr), pPrev(nullptr), pLast(nullptr), pStop(nullptr) {};
     List(const List<T>& list);
     ~List();
-    void DelList();
+    virtual void DelList();
     const List& operator=(const List<T>& list);
     bool operator==(const List<T>& list) const;
     int GetSZ();
-    void PushFront(const T& val, const int& key);
-    void PushBack(const T& val, const int& key);
+    virtual void PushFront(const T& val, const int& key);
+    virtual void PushBack(const T& val, const int& key);
     void PopBack();
     void PopFront();
     bool IsEmpty() const;
     T SearchKey(const int& key);
     bool CheckKey(const int& key);
     T GetFirst() { return pFirst->data; };
+    T GetCurr() { return pCurr->data; };
+    void PushAfterKey(const T& val, const int& key, int ch_key);
+    void PushBeforeKey(const T& val, const int& key, int ch_key);
+    void PopAftterKey(int ch_key);
+    void PopBeforeKey(int ch_key);
+
+    void Next();
+    void Reset() { pCurr = pFirst; pPrev = nullptr; };
+    void PushAfterCurr(const T& val, const int& key);
+    void PushBeforeCurr(const T& val, const int& key);
+    void PopAftterCurr();
+    void PopBeforeCurr();
 };
 
 
@@ -45,11 +58,11 @@ List<T>::List(const List<T>& list) : pFirst(nullptr), pCurr(nullptr), pPrev(null
 {
     if (list.pFirst == nullptr)
         return;
-    pFirst = new TNode{ *list.pFirst };
+    pFirst = new TNode<T>{ *list.pFirst };
     pCurr = pFirst;
     while (pCurr->pNext != nullptr)
     {
-        pCurr->pNext = new TNode{ *pCurr->pNext };
+        pCurr->pNext = new TNode<T>{ *pCurr->pNext };
         pCurr = pCurr->pNext;
     }
     pLast = pCurr;
@@ -60,8 +73,12 @@ List<T>::List(const List<T>& list) : pFirst(nullptr), pCurr(nullptr), pPrev(null
 template <typename T>
 void List<T>::DelList()
 {
+    if (pFirst == nullptr)
+    {
+        return;
+    }
     pCurr = pFirst;
-    TNode* tmp;
+    TNode<T>* tmp;
     while (pCurr != pStop)
     {
         tmp = pCurr->pNext;
@@ -89,19 +106,22 @@ const List<T>& List<T>::operator=(const List<T>& list)
     if (this != &list)
     {
         this->DelList();
-        pFirst = new TNode{ *list.pFirst };
-        TNode* pNew = pFirst;
+        pFirst = new TNode<T>{ *list.pFirst };
+        TNode<T>* pNew = pFirst;
         while (pNew->pNext != nullptr)
         {
             
-            pNew->pNext = new TNode{ *pNew->pNext };
+            pNew->pNext = new TNode<T>{ *pNew->pNext };
             pNew = pNew->pNext;
             if (pNew->pNext == list.pCurr)
             {
                 pPrev = pNew;
             }
+            if (pNew == list.pCurr)
+            {
+                pCurr = pNew;
+            }
         }
-        pCurr = pPrev->pNext;
         pLast = pNew;
         pStop = pLast;
     }
@@ -115,7 +135,7 @@ int List<T>::GetSZ()
     if (pFirst == nullptr)
         return 0;
     int i = 1;
-    TNode* curr=pFirst;
+    TNode<T>* curr=pFirst;
     while (curr != pStop)
     {
         curr = curr->pNext;
@@ -127,8 +147,8 @@ int List<T>::GetSZ()
 template <typename T>
 bool List<T>::operator==(const List<T>& list) const
 {
-    TNode* curr1 = pFirst;
-    TNode* curr2 = list.pFirst;
+    TNode<T>* curr1 = pFirst;
+    TNode<T>* curr2 = list.pFirst;
     if (curr1 != nullptr && curr2 != nullptr)
     {
         while (curr1 != nullptr || curr2 != nullptr)
@@ -150,7 +170,9 @@ bool List<T>::operator==(const List<T>& list) const
 template <typename T>
 void List<T>::PushBack(const T& val, const int& key)
 {
-    TNode* node = new TNode(val,key);
+    if (CheckKey(key) == 1)
+        throw std::exception("The key is in the list");
+    TNode<T>* node = new TNode<T>(val,key);
     if (pFirst == nullptr)
     {
         pFirst = node;
@@ -159,10 +181,7 @@ void List<T>::PushBack(const T& val, const int& key)
         pStop = node;
         return;
     }
-    TNode* curr = pFirst;
-    while (curr != pStop)
-        curr = curr->pNext;
-    curr->pNext = node;
+    pLast->pNext = node;
     pLast = node;
     pStop = pLast;
 }
@@ -170,7 +189,9 @@ void List<T>::PushBack(const T& val, const int& key)
 template<typename T>
 void List<T>::PushFront(const T& val, const int& key)
 {
-    TNode* node = new TNode(val,key);
+    if (CheckKey(key) == 1)
+        throw std::exception("The key is in the list");
+    TNode<T>* node = new TNode<T>(val,key);
     if (pFirst == nullptr)
     {
         pFirst = node;
@@ -179,7 +200,7 @@ void List<T>::PushFront(const T& val, const int& key)
         pStop = node;
         return;
     }
-    TNode* tmp = pFirst;
+    TNode<T>* tmp = pFirst;
     if (pCurr == pFirst)
         pPrev = node;
     pFirst = node;
@@ -200,8 +221,8 @@ void List<T>::PopBack()
         pStop = nullptr;
         return;
     }
-    TNode* curr = pFirst->pNext;
-    TNode* prevcurr = pFirst;
+    TNode<T>* curr = pFirst->pNext;
+    TNode<T>* prevcurr = pFirst;
     while (curr->pNext != nullptr)
     {
         prevcurr = curr;
@@ -220,7 +241,7 @@ void List<T>::PopFront()
 {
     if (IsEmpty())
         throw std::exception("Error");
-    TNode* tmp = pFirst->pNext;
+    TNode<T>* tmp = pFirst->pNext;
     if (pCurr == pFirst)
         pCurr = pFirst->pNext;
     if (pPrev == pFirst)
@@ -243,7 +264,9 @@ bool List<T>::IsEmpty() const
 template <typename T>
 T List<T>::SearchKey(const int& key)
 {
-    TNode* curr = pFirst;
+    if (IsEmpty())
+        throw std::exception("Error: List is empty");
+    TNode<T>* curr = pFirst;
     if (curr->key == key)
         return curr->data;
     while (curr != pStop)
@@ -258,7 +281,9 @@ T List<T>::SearchKey(const int& key)
 template <typename T>
 bool List<T>::CheckKey(const int& key)
 {
-    TNode* curr = pFirst;
+    if (IsEmpty())
+        return 0;
+    TNode<T>* curr = pFirst;
     if (curr->key == key)
         return 1;
     while (curr != pStop)
@@ -269,4 +294,207 @@ bool List<T>::CheckKey(const int& key)
     }
     return 0;
 }
+
+template <typename T>
+void List<T>::PushAfterKey(const T& val, const int& key, int ch_key)
+{
+    if (CheckKey(ch_key) == 0)
+        throw std::exception("Error: have not this key");
+    if (CheckKey(key) == 1)
+        throw std::exception("The key is in the list");
+    TNode<T>* curr = pFirst;
+    while (curr->key != ch_key)
+    {
+        curr = curr->pNext;
+    }
+    if (curr == pStop)
+    {
+        PushBack(val, key);
+        return;
+    }
+    TNode<T>* node = new TNode<T>(val, key);
+    TNode<T>* tmp = curr->pNext;
+    curr->pNext = node;
+    node->pNext = tmp;
+}
+
+template <typename T>
+void List<T>::PushBeforeKey(const T& val, const int& key, int ch_key)
+{
+    if (CheckKey(ch_key) == 0)
+        throw std::exception("Error: have not this key");
+    if (CheckKey(key) == 1)
+        throw std::exception("The key is in the list");
+    TNode<T>* curr = pFirst;
+    TNode<T>* prev;
+    while (curr->key != ch_key)
+    {
+        prev = curr;
+        curr = curr->pNext;
+    }
+    if(curr==pFirst)
+    {
+        PushFront(val, key);
+        return;
+    }
+    TNode<T>* node = new TNode<T>(val, key);
+    prev->pNext = node;
+    node->pNext = curr;
+}
+
+template <typename T>
+void List<T>::PopAftterKey(int ch_key)
+{
+    if (CheckKey(ch_key) == 0)
+        throw std::exception("Error: have not this key");
+    TNode<T>* curr = pFirst;
+    while (curr->key != ch_key)
+    {
+        curr = curr->pNext;
+    }
+    if (curr == pStop)
+        return;
+    if (curr->pNext == pStop)
+    {
+        delete curr->pNext;
+        curr->pNext = nullptr;
+        pLast = curr;
+        pStop = pLast;
+        return;
+    }
+    if(curr->pNext==pCurr)
+        pCurr= curr->pNext->pNext;
+    if (curr->pNext == pPrev)
+        pPrev = curr;
+    TNode<T>* tmp = curr->pNext->pNext;
+    delete curr->pNext;
+    curr->pNext = tmp;
+}
+
+template <typename T>
+void List<T>::PopBeforeKey(int ch_key)
+{
+    if (CheckKey(ch_key) == 0)
+        throw std::exception("Error: have not this key");
+    if (pFirst->key == ch_key)
+        return;
+    TNode<T>* curr = pFirst->pNext;
+    if (pFirst->pNext->key == ch_key)
+    {
+        if (pFirst == pPrev)
+            pPrev = nullptr;
+        if (pFirst == pCurr)
+            pCurr = curr;
+        delete pFirst;
+        pFirst = curr;
+        return;
+    }
+    TNode<T>* prevCurr=pFirst;
+    TNode<T>* prevPrev;
+    while (curr->key != ch_key)
+    {
+        prevPrev = prevCurr;
+        prevCurr = curr;
+        curr = curr->pNext;
+    }
+    if (prevCurr == pCurr)
+        pCurr = curr;
+    if (prevCurr == pPrev)
+        pPrev = prevPrev;
+    delete prevCurr;
+    prevCurr = nullptr;
+    prevPrev->pNext = curr;
+}
+
+template <typename T>
+void List<T>::Next()
+{
+    if (pCurr == pStop)
+        throw std::exception("Error:Last element");
+    pPrev = pCurr;
+    pCurr = pCurr->pNext;
+}
+
+template <typename T>
+void List<T>::PushAfterCurr(const T& val, const int& key)
+{
+    if (IsEmpty())
+        throw std::exception("Error: List is empty");
+    if (CheckKey(key) == 1)
+        throw std::exception("The key is in the list");
+    TNode<T>* node = new TNode<T>(val, key);
+    if (pCurr == pStop)
+    {
+        pCurr->pNext = node;
+        pLast = node;
+        pStop = pLast;
+        return;
+    }
+    TNode<T>* tmp = pCurr->pNext;
+    pCurr->pNext = node;
+    node->pNext = tmp;
+}
+
+template <typename T>
+void List<T>::PushBeforeCurr(const T& val, const int& key)
+{
+    if (IsEmpty())
+        throw std::exception("Error: List is empty");
+    if (CheckKey(key) == 1)
+        throw std::exception("The key is in the list");
+    TNode<T>* node = new TNode<T>(val, key);
+    if (pCurr == pFirst)
+    {
+        node->pNext = pCurr;
+        pFirst = node;
+        pPrev = pFirst;
+        return;
+    }
+    pPrev->pNext = node;
+    node->pNext = pCurr;
+    pPrev = node;
+}
+
+template <typename T>
+void List<T>::PopAftterCurr()
+{
+    if (IsEmpty())
+        throw std::exception("Error: List is empty");
+    if (pCurr == pStop)
+        return;
+    if (pCurr->pNext == pStop)
+    {
+        delete pCurr->pNext;
+        pCurr->pNext == nullptr;
+        pLast = pCurr;
+        pStop = pLast;
+        return;
+    }
+    TNode<T>* tmp = pCurr->pNext->pNext;
+    delete pCurr->pNext;
+    pCurr->pNext == tmp;
+}
+
+template <typename T>
+void List<T>::PopBeforeCurr()
+{
+    if (IsEmpty())
+        throw std::exception("Error: List is empty");
+    if (pCurr == pFirst)
+        return;
+    if (pPrev == pFirst)
+    {
+        delete pPrev;
+        pPrev == nullptr;
+        pFirst = pCurr;
+        return;
+    }
+    TNode<T>* tmp = pFirst;
+    while (tmp->pNext != pPrev)
+        tmp = tmp->pNext;
+    delete pPrev;
+    pPrev = tmp;
+    pPrev->pNext = pCurr;
+}
+
 #endif // !LIST_H
