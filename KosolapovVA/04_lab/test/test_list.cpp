@@ -256,6 +256,7 @@ TEST(test_list, correct_push_after_curr)
     List<int> a;
     a.PushBack(8, 4);
     a.PushBack(10, 5);
+    a.Next();
     a.PushAfterCurr(17, 10);
     a.Next();
     EXPECT_EQ(17, a.GetCurr());

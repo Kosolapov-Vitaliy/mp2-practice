@@ -32,8 +32,8 @@ public:
     int GetSZ();
     virtual void PushFront(const T& val, const int& key);
     virtual void PushBack(const T& val, const int& key);
-    void PopBack();
-    void PopFront();
+    virtual void PopBack();
+    virtual void PopFront();
     bool IsEmpty() const;
     T SearchKey(const int& key);
     bool CheckKey(const int& key);
@@ -50,6 +50,13 @@ public:
     void PushBeforeCurr(const T& val, const int& key);
     void PopAftterCurr();
     void PopBeforeCurr();
+
+    void set_prev(TNode<T>* node) { pPrev = node; };
+    void set_first(TNode<T>* node) { pFirst = node; };
+    TNode<T>* get_prev() { return pPrev; };
+    TNode<T>* get_curr() { return pCurr; };
+    TNode<T>* get_first() { return pFirst; };
+    
 };
 
 
@@ -223,7 +230,7 @@ void List<T>::PopBack()
     }
     TNode<T>* curr = pFirst->pNext;
     TNode<T>* prevcurr = pFirst;
-    while (curr->pNext != nullptr)
+    while (curr != pStop)
     {
         prevcurr = curr;
         curr = curr->pNext;
@@ -249,6 +256,7 @@ void List<T>::PopFront()
     if (pLast == pFirst)
     {
         pLast = nullptr;
+        pCurr = nullptr;
         pStop = pLast;
     }        
     delete pFirst;
@@ -425,9 +433,7 @@ void List<T>::PushAfterCurr(const T& val, const int& key)
     TNode<T>* node = new TNode<T>(val, key);
     if (pCurr == pStop)
     {
-        pCurr->pNext = node;
-        pLast = node;
-        pStop = pLast;
+        PushBack(val, key);
         return;
     }
     TNode<T>* tmp = pCurr->pNext;
@@ -445,9 +451,7 @@ void List<T>::PushBeforeCurr(const T& val, const int& key)
     TNode<T>* node = new TNode<T>(val, key);
     if (pCurr == pFirst)
     {
-        node->pNext = pCurr;
-        pFirst = node;
-        pPrev = pFirst;
+        PushFront(val, key);
         return;
     }
     pPrev->pNext = node;
@@ -464,10 +468,7 @@ void List<T>::PopAftterCurr()
         return;
     if (pCurr->pNext == pStop)
     {
-        delete pCurr->pNext;
-        pCurr->pNext == nullptr;
-        pLast = pCurr;
-        pStop = pLast;
+        PopBack();
         return;
     }
     TNode<T>* tmp = pCurr->pNext->pNext;
@@ -484,9 +485,7 @@ void List<T>::PopBeforeCurr()
         return;
     if (pPrev == pFirst)
     {
-        delete pPrev;
-        pPrev == nullptr;
-        pFirst = pCurr;
+        PopFront();
         return;
     }
     TNode<T>* tmp = pFirst;
