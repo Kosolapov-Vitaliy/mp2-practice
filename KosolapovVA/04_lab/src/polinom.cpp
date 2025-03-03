@@ -347,8 +347,8 @@ Polinom Polinom::operator-(const Polinom& pol)
         if (tmp2.CheckKey(tmp_k))
         {
             tmp2.SearchKey(tmp_k);
-            if(tmp2.GetCurr().get_coef() - tmp1.GetCurr().get_coef()!=0)
-                monoms.PushBack(Monom(tmp2.GetCurr().get_coef() - tmp1.GetCurr().get_coef(), tmp_k), tmp_k);            
+            if(tmp1.GetCurr().get_coef() - tmp2.GetCurr().get_coef()!=0)
+                monoms.PushBack(Monom(tmp1.GetCurr().get_coef() - tmp2.GetCurr().get_coef(), tmp_k), tmp_k);            
             tmp2.Next();
             tmp2.PopBeforeCurr();
         }
@@ -451,7 +451,20 @@ Polinom Polinom::operator*(double c)
 
 bool Polinom::operator==(const Polinom& pol)
 {
-    return(monom == pol.monom);
+    RingList<Monom> tmp1(pol.monom);
+    RingList<Monom> tmp2(monom);
+    if (monom.GetSZ() != tmp1.GetSZ())
+        return 0;
+    tmp1.Reset();
+    tmp2.Reset();
+    for (int i = 0; i < monom.GetSZ(); i++)
+    {
+        if (tmp1.GetCurr() != tmp2.GetCurr())
+            return 0;
+        tmp1.Next();
+        tmp2.Next();
+    }
+    return 1;
 }
 bool Polinom::operator!=(const Polinom& pol)
 {

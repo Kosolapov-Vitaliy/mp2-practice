@@ -6,7 +6,7 @@ Monom Monom::operator+(const Monom& mon)
         return Monom(coef + mon.coef, degree);
     }
     else {
-        throw "Monoms has diff degree";
+        throw std::exception("Diff degree");
     }
 }
 Monom Monom::operator-(const Monom& mon)
@@ -15,7 +15,7 @@ Monom Monom::operator-(const Monom& mon)
         return Monom(coef - mon.coef, degree);
     }
     else {
-        throw "Monoms has diff degree";
+        throw std::exception("Diff degree");
     }
 }
 Monom Monom::operator*(const Monom& mon)
