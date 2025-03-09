@@ -15,6 +15,7 @@ public:
     virtual void PopBack();
     virtual const RingList& operator=(const RingList<T>& list);
     virtual void Next();
+    virtual void PopBeforeCurr();
 };
 
 template <typename T>
@@ -71,5 +72,15 @@ const RingList<T>& RingList<T>::operator=(const RingList<T>& rlist)
     if (pLast != nullptr)
         pLast->pNext = pHead;
     return *this;
+}
+template <typename T>
+void RingList<T>::PopBeforeCurr()
+{
+    HeadList<T>::PopBeforeCurr();
+    if (pCurr == pHead)
+    {
+        pLast = pPrev;
+        pStop = pLast;
+    }
 }
 #endif //!RINGLIST_H

@@ -17,12 +17,12 @@ template <typename T>
 class List
 {
 private:
-    TNode<T>* pStop;
 protected:
     TNode<T>* pFirst;
     TNode<T>* pCurr;
     TNode<T>* pPrev;
     TNode<T>* pLast;
+    TNode<T>* pStop;
 public:
     List(): pFirst(nullptr), pCurr(nullptr), pPrev(nullptr), pLast(nullptr), pStop(nullptr) {};
     List(const List<T>& list);
@@ -50,8 +50,8 @@ public:
     void Reset() { pCurr = pFirst; pPrev = nullptr; };
     void PushAfterCurr(const T& val, const int& key);
     void PushBeforeCurr(const T& val, const int& key);
-    void PopAftterCurr();
-    void PopBeforeCurr();
+    virtual void PopAftterCurr();
+    virtual void PopBeforeCurr();
     
 };
 
@@ -202,7 +202,7 @@ bool List<T>::operator==(const List<T>& list) const
 template <typename T>
 void List<T>::PushBack(const T& val, const int& key)
 {
-    if (CheckKey(key) == 1)
+     if (CheckKey(key) == 1)
         throw std::exception("The key is in the list");    
     if (pFirst == nullptr)
     {

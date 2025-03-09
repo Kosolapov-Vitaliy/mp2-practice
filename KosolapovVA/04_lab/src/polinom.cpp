@@ -22,7 +22,10 @@ void Monom_to_list(double& temp_coef, int& temp_degree, RingList<Monom>& tmp_1, 
     else if (tmp_1.CheckKey(temp_degree))
     {
         tmp_1.SearchKey(temp_degree);
-        temp_coef += tmp_1.GetCurr().get_coef();
+        temp_coef += tmp_1.GetCurr().coef;
+        tmp_1.PushAfterCurr(Monom(0, 0), -2);
+        tmp_1.Next();
+        tmp_1.PopBeforeCurr();
         tmp_1.PushAfterCurr(Monom(temp_coef, temp_degree), temp_degree);
         tmp_1.Next();
         tmp_1.PopBeforeCurr();
@@ -313,13 +316,13 @@ Polinom Polinom::operator+(const Polinom& pol)
         if (tmp2.CheckKey(tmp_k))
         {
             tmp2.SearchKey(tmp_k);
-            monoms.PushBack(Monom(tmp2.GetCurr().get_coef() + tmp1.GetCurr().get_coef(), tmp_k), tmp_k);
+            monoms.PushBack(Monom(tmp2.GetCurr().coef + tmp1.GetCurr().coef, tmp_k), tmp_k);
             tmp2.Next();
             tmp2.PopBeforeCurr();
         }
         else if (!(tmp2.CheckKey(tmp_k)))
         {
-            monoms.PushBack(Monom(tmp1.GetCurr().get_coef(), tmp_k), tmp_k);
+            monoms.PushBack(Monom(tmp1.GetCurr().coef, tmp_k), tmp_k);
         }
         tmp1.Next();
     }
@@ -327,7 +330,7 @@ Polinom Polinom::operator+(const Polinom& pol)
     for (int i = 0; i < tmp2.GetSZ(); i++)
     {
         int tmp_k = tmp2.CurrKey();
-        monoms.PushBack(Monom(tmp2.GetCurr().get_coef(), tmp_k), tmp_k);
+        monoms.PushBack(Monom(tmp2.GetCurr().coef, tmp_k), tmp_k);
         tmp2.Next();
     }
     res.monom = monoms;
@@ -347,14 +350,14 @@ Polinom Polinom::operator-(const Polinom& pol)
         if (tmp2.CheckKey(tmp_k))
         {
             tmp2.SearchKey(tmp_k);
-            if(tmp1.GetCurr().get_coef() - tmp2.GetCurr().get_coef()!=0)
-                monoms.PushBack(Monom(tmp1.GetCurr().get_coef() - tmp2.GetCurr().get_coef(), tmp_k), tmp_k);            
+            if(tmp1.GetCurr().coef - tmp2.GetCurr().coef!=0)
+                monoms.PushBack(Monom(tmp1.GetCurr().coef - tmp2.GetCurr().coef, tmp_k), tmp_k);            
             tmp2.Next();
             tmp2.PopBeforeCurr();
         }
         else if (!(tmp2.CheckKey(tmp_k)))
         {
-            monoms.PushBack(Monom(tmp1.GetCurr().get_coef(), tmp_k), tmp_k);
+            monoms.PushBack(Monom(tmp1.GetCurr().coef, tmp_k), tmp_k);
         }
         tmp1.Next();
     }
@@ -362,7 +365,7 @@ Polinom Polinom::operator-(const Polinom& pol)
     for (int i = 0; i < tmp2.GetSZ(); i++)
     {
         int tmp_k = tmp2.CurrKey();
-        monoms.PushBack(Monom(0.0-tmp2.GetCurr().get_coef(), tmp_k), tmp_k);
+        monoms.PushBack(Monom(0.0-tmp2.GetCurr().coef, tmp_k), tmp_k);
         tmp2.Next();
     }
     res.monom = monoms;
@@ -382,14 +385,14 @@ Polinom Polinom::operator*(const Polinom& pol)
         for (int j = 0; j < tmp2.GetSZ(); j++)
         {
             Monom temp_res = tmp1.GetCurr()* tmp2.GetCurr();
-            if (monoms.CheckKey(temp_res.get_degree()))
+            if (monoms.CheckKey(temp_res.degree))
             {
-                monoms.SearchKey(temp_res.get_degree());
+                monoms.SearchKey(temp_res.degree);
                 temp_res =temp_res + monoms.GetCurr();
                 monoms.Next();
                 monoms.PopBeforeCurr();
             }
-            monoms.PushBack(temp_res,temp_res.get_degree());
+            monoms.PushBack(temp_res,temp_res.degree);
             tmp2.Next();
         }
         tmp1.Next();
@@ -449,24 +452,23 @@ Polinom Polinom::operator*(double c)
     return res;
 }
 
-bool Polinom::operator==(const Polinom& pol)
+bool Polinom::operator==(const Polinom& pol) const
 {
     RingList<Monom> tmp1(pol.monom);
     RingList<Monom> tmp2(monom);
-    if (monom.GetSZ() != tmp1.GetSZ())
+    if (tmp1.GetSZ() != tmp1.GetSZ())
         return 0;
     tmp1.Reset();
-    tmp2.Reset();
-    for (int i = 0; i < monom.GetSZ(); i++)
+    for (int i = 0; i < tmp1.GetSZ(); i++)
     {
-        if (tmp1.GetCurr() != tmp2.GetCurr())
+        tmp2.SearchKey(tmp1.GetCurr().degree);
+        if (tmp2.GetCurr() != tmp1.GetCurr())
             return 0;
         tmp1.Next();
-        tmp2.Next();
     }
     return 1;
 }
-bool Polinom::operator!=(const Polinom& pol)
+bool Polinom::operator!=(const Polinom& pol) const
 {
     return(!(Polinom::operator==(pol)));
 }

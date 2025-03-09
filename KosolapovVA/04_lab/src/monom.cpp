@@ -54,6 +54,8 @@ std::string Monom::Monom_to_str() {
 
     }
     else if (coef < 0) {
+        if(coef==-1&&degree!=0)
+            res += "-";        
         if (coef != -1) {
             res += std::to_string(coef);
         }

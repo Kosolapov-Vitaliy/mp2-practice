@@ -45,6 +45,12 @@ TEST(test_monom, correct_mull_operator)
     Monom res(50, 370);
     EXPECT_EQ(a * b, res);
 }
+TEST(test_monom, correct_mull_on_const_operator)
+{
+    Monom a(10, 120);
+    Monom res(50, 120);
+    EXPECT_TRUE(a * 5==res);
+}
 TEST(test_monom, correct_calculate_monom)
 {
     Monom a(10, 120);

@@ -3,10 +3,9 @@
 #include <iostream>
 #include <string>
 class Monom {
-private:
+public:
     double coef;
     int degree;
-public:
     Monom() :coef(0), degree(0) {};
     Monom(double cf, int dg) :coef(cf)
     {
@@ -16,8 +15,6 @@ public:
             throw std::exception("Incorrect degree");
     };
     Monom(const Monom& mon):coef(mon.coef), degree(mon.degree) {};
-    double get_coef() { return coef; }
-    int get_degree() { return degree; }
     std::string Monom_to_str();
 
     Monom operator+(const Monom& p);

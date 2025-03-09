@@ -28,8 +28,8 @@ public:
     Polinom operator-(double c);
     Polinom operator*(double c);
 
-    bool operator==(const Polinom& p);
-    bool operator!=(const Polinom& p);
+    bool operator==(const Polinom& p) const;
+    bool operator!=(const Polinom& p) const;
 
     friend std::ostream& operator<<(std::ostream& out, Polinom& pol)
     {
