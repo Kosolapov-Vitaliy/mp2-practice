@@ -18,17 +18,31 @@ void Monom_to_list(double& temp_coef, int& temp_degree, RingList<Monom>& tmp_1, 
 {
     temp_coef *= sgn;
     if (!(tmp_1.CheckKey(temp_degree)))
-        tmp_1.PushBack(Monom(temp_coef, temp_degree), temp_degree);
+    {
+        if(tmp_1.IsEmpty())
+            tmp_1.PushBack(Monom(temp_coef, temp_degree), temp_degree);
+        else
+        {
+            tmp_1.Reset();
+            while ((!(tmp_1.Is_End()))) 
+            {
+                if (tmp_1.GetCurr().degree > temp_degree)
+                {
+                    tmp_1.PushBeforeCurr(Monom(temp_coef, temp_degree), temp_degree);
+                    return;
+                }
+                tmp_1.Next();               
+            }
+            tmp_1.PushBack(Monom(temp_coef, temp_degree), temp_degree);
+        }
+    }        
     else if (tmp_1.CheckKey(temp_degree))
     {
         tmp_1.SearchKey(temp_degree);
-        temp_coef += tmp_1.GetCurr().coef;
-        tmp_1.PushAfterCurr(Monom(0, 0), -2);
+        temp_coef += tmp_1.GetCurr().coef;       
         tmp_1.Next();
         tmp_1.PopBeforeCurr();
-        tmp_1.PushAfterCurr(Monom(temp_coef, temp_degree), temp_degree);
-        tmp_1.Next();
-        tmp_1.PopBeforeCurr();
+        tmp_1.PushBeforeCurr(Monom(temp_coef, temp_degree), temp_degree);
     }
 }
 
@@ -279,9 +293,9 @@ Polinom::Polinom(const std::string& str)
             }
         }
         
-    }    
-    polinom = str;
+    }        
     monom = tmp_1;
+    set_str();
 }
 
 void Polinom::set_str()
@@ -310,27 +324,31 @@ Polinom Polinom::operator+(const Polinom& pol)
     RingList<Monom> tmp2(pol.monom);
     RingList<Monom> monoms;
     tmp1.Reset();
-    for (int i = 0; i < tmp1.GetSZ(); i++)
+    while (!tmp1.Is_End())
     {
         int tmp_k = tmp1.CurrKey();
         if (tmp2.CheckKey(tmp_k))
         {
             tmp2.SearchKey(tmp_k);
-            monoms.PushBack(Monom(tmp2.GetCurr().coef + tmp1.GetCurr().coef, tmp_k), tmp_k);
+            double coef = tmp2.GetCurr().coef + tmp1.GetCurr().coef;
+            if (coef != 0)
+                Monom_to_list(coef, tmp_k, monoms, 1);
             tmp2.Next();
             tmp2.PopBeforeCurr();
         }
         else if (!(tmp2.CheckKey(tmp_k)))
         {
-            monoms.PushBack(Monom(tmp1.GetCurr().coef, tmp_k), tmp_k);
+            double coef =  tmp1.GetCurr().coef;
+            Monom_to_list(coef, tmp_k, monoms, 1);
         }
         tmp1.Next();
-    }
+    }    
     tmp2.Reset();
-    for (int i = 0; i < tmp2.GetSZ(); i++)
+    while (!tmp2.Is_End())
     {
         int tmp_k = tmp2.CurrKey();
-        monoms.PushBack(Monom(tmp2.GetCurr().coef, tmp_k), tmp_k);
+        double coef = tmp2.GetCurr().coef;
+        Monom_to_list(coef, tmp_k, monoms, 1);
         tmp2.Next();
     }
     res.monom = monoms;
@@ -344,28 +362,31 @@ Polinom Polinom::operator-(const Polinom& pol)
     RingList<Monom> tmp2(pol.monom);
     RingList<Monom> monoms;
     tmp1.Reset();
-    for (int i = 0; i < tmp1.GetSZ(); i++)
+    while (!tmp1.Is_End())
     {
         int tmp_k = tmp1.CurrKey();
         if (tmp2.CheckKey(tmp_k))
         {
             tmp2.SearchKey(tmp_k);
-            if(tmp1.GetCurr().coef - tmp2.GetCurr().coef!=0)
-                monoms.PushBack(Monom(tmp1.GetCurr().coef - tmp2.GetCurr().coef, tmp_k), tmp_k);            
+            double coef = tmp1.GetCurr().coef - tmp2.GetCurr().coef;
+            if(coef!=0)
+                Monom_to_list(coef, tmp_k, monoms, 1);
             tmp2.Next();
             tmp2.PopBeforeCurr();
         }
         else if (!(tmp2.CheckKey(tmp_k)))
         {
-            monoms.PushBack(Monom(tmp1.GetCurr().coef, tmp_k), tmp_k);
+            double coef = tmp1.GetCurr().coef;
+            Monom_to_list(coef, tmp_k, monoms, 1);
         }
         tmp1.Next();
     }
     tmp2.Reset();
-    for (int i = 0; i < tmp2.GetSZ(); i++)
+    while (!tmp2.Is_End())
     {
         int tmp_k = tmp2.CurrKey();
-        monoms.PushBack(Monom(0.0-tmp2.GetCurr().coef, tmp_k), tmp_k);
+        double coef = tmp2.GetCurr().coef; 
+        Monom_to_list(coef, tmp_k, monoms, -1);
         tmp2.Next();
     }
     res.monom = monoms;
@@ -379,10 +400,10 @@ Polinom Polinom::operator*(const Polinom& pol)
     RingList<Monom> tmp2(pol.monom);
     RingList<Monom> monoms;
     tmp1.Reset();
-    for (int i = 0; i < tmp1.GetSZ(); i++)
+    while (!tmp1.Is_End())
     {
         tmp2.Reset();
-        for (int j = 0; j < tmp2.GetSZ(); j++)
+        while (!tmp2.Is_End())
         {
             Monom temp_res = tmp1.GetCurr()* tmp2.GetCurr();
             if (monoms.CheckKey(temp_res.degree))
@@ -392,7 +413,7 @@ Polinom Polinom::operator*(const Polinom& pol)
                 monoms.Next();
                 monoms.PopBeforeCurr();
             }
-            monoms.PushBack(temp_res,temp_res.degree);
+            Monom_to_list(temp_res.coef, temp_res.degree, monoms, 1);
             tmp2.Next();
         }
         tmp1.Next();
@@ -442,7 +463,7 @@ Polinom Polinom::operator*(double c)
     RingList<Monom> tmp1(monom);
     tmp1.Reset();
     RingList<Monom> monoms;
-    for (int i = 0; i < tmp1.GetSZ(); i++)
+    while (!tmp1.Is_End())
     {
         monoms.PushBack(tmp1.GetCurr() * c, tmp1.CurrKey());
         tmp1.Next();
@@ -460,7 +481,7 @@ bool Polinom::operator==(const Polinom& pol) const
         return 0;
     tmp1.Reset();
     for (int i = 0; i < tmp1.GetSZ(); i++)
-    {
+    {        
         tmp2.SearchKey(tmp1.GetCurr().degree);
         if (tmp2.GetCurr() != tmp1.GetCurr())
             return 0;

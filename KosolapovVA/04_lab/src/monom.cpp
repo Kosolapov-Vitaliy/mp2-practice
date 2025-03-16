@@ -1,4 +1,5 @@
 #include "monom.h"
+#include <sstream>
 
 Monom Monom::operator+(const Monom& mon)
 {
@@ -46,21 +47,26 @@ std::string Monom::Monom_to_str() {
     std::string res;
     if (coef > 0) {
         res += "+";
+        std::ostringstream stream;
+        stream << coef;
         if(coef==1 && degree==0)
-            res += std::to_string(coef);
+            res += stream.str();
         if (coef != 1) {
-            res += std::to_string(coef);
+            res += stream.str();
         }
 
     }
     else if (coef < 0) {
+
+        std::ostringstream stream;
+        stream << coef;
         if(coef==-1&&degree!=0)
             res += "-";        
         if (coef != -1) {
-            res += std::to_string(coef);
+            res += stream.str();
         }
         if (coef == -1 && degree == 0)
-            res += std::to_string(coef);
+            res += stream.str();
     }
     else {
         return "";

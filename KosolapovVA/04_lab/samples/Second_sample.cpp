@@ -4,8 +4,10 @@
 
 void main()
 {
+    
     try
     {
+        
         std::cout << "Start workin polynoms.\n";
         int flag = 0;
         Polinom curr1;

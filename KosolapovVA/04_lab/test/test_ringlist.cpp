@@ -9,11 +9,10 @@ TEST(test_ringlist, can_create_list)
 
 TEST(test_ringlist, can_create_copied_list)
 {
-    RingList<int> a;
-    a.PushBack(8, 1);
+    RingList<int> a;    
+    a.PushFront(2, 1);
     ASSERT_NO_THROW(RingList<int> s(a));
 }
-
 TEST(test_ringlist, check_comparison_operator)
 {
     RingList<int> a;

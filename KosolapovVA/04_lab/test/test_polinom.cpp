@@ -1,6 +1,5 @@
 #include <gtest.h>
 #include "polinom.h"
-
 TEST(test_polynom, can_create_polynom)
 {
     ASSERT_NO_THROW(Polinom a);
@@ -27,7 +26,7 @@ TEST(test_polynom, correct_transform)
     std::string inb = "4*x";
     Polinom a(ina);
     Polinom b(inb);
-    EXPECT_EQ(a,b);
+    EXPECT_EQ(a, b);
 }
 TEST(test_polynom, correct_sub_operator)
 {
@@ -38,7 +37,7 @@ TEST(test_polynom, correct_sub_operator)
     Polinom b(inb);
     Polinom result(res);
     Polinom s = a - b;
-    EXPECT_EQ(a-b, res);
+    EXPECT_EQ(a - b, res);
 }
 TEST(test_polynom, correct_sub_operator_hard)
 {
@@ -56,7 +55,7 @@ TEST(test_polynom, correct_sub_const_operator)
     std::string res = "2*x+y-5";
     Polinom a(ina);
     Polinom result(res);
-    EXPECT_EQ(a - 5 , res);
+    EXPECT_EQ(a - 5, res);
 }
 TEST(test_polynom, correct_mull_operator)
 {
@@ -76,7 +75,7 @@ TEST(test_polynom, correct_mull_operator_hard)
     Polinom a(ina);
     Polinom b(inb);
     Polinom result(res);
-    EXPECT_EQ(a * b, res );
+    EXPECT_EQ(a * b, res);
 }
 TEST(test_polynom, correct_mull_on_const_operator)
 {
@@ -84,7 +83,7 @@ TEST(test_polynom, correct_mull_on_const_operator)
     std::string res = "4*x+2*y";
     Polinom a(ina);
     Polinom result(res);
-    EXPECT_EQ(a*2,res);
+    EXPECT_EQ(a * 2, res);
 }
 TEST(test_polynom, correct_calculate_polynom)
 {
@@ -100,7 +99,7 @@ TEST(test_polynom, correct_add_operator)
     Polinom a(ina);
     Polinom b(inb);
     Polinom result(res);
-    EXPECT_EQ(a + b,res);
+    EXPECT_EQ(a + b, res);
 }
 TEST(test_polynom, correct_add_operator_hard)
 {
@@ -125,5 +124,5 @@ TEST(test_polynom, correct_create_copied)
     std::string in = "x^2*y^3+2*z^2";
     Polinom a(in);
     Polinom s(a);
-    EXPECT_EQ(s,a);
+    EXPECT_EQ(s, a);
 }

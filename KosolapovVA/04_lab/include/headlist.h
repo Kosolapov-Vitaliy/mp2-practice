@@ -49,6 +49,8 @@ void HeadList<T>::PushFront(const T& val, const int& key)
  {
      List<T>::PopFront();
      pHead->pNext = pFirst;
+     if (pFirst == nullptr)
+         pCurr = pHead;
      if (pCurr == pFirst)
          pPrev = pHead;
  }
