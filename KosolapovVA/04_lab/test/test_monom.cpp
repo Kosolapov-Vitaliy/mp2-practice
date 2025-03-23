@@ -54,5 +54,5 @@ TEST(test_monom, correct_mull_on_const_operator)
 TEST(test_monom, correct_calculate_monom)
 {
     Monom a(10, 120);
-    EXPECT_EQ(a.Calculate(1, 1, 1), 10);
+    EXPECT_EQ(a(1, 1, 1), 10);
 }

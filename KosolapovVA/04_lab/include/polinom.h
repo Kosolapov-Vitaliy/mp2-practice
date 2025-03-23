@@ -18,11 +18,15 @@ public:
 	Polinom(const Polinom& pol) :monom(pol.monom), polinom(pol.polinom){};
 
     void set_str();
-    double Calculate(double x, double y, double z);
+    double operator()(double x, double y, double z);
 
     Polinom operator+(const Polinom& p);
     Polinom operator-(const Polinom& p);
     Polinom operator*(const Polinom& p);
+
+    Polinom operator+(const Monom& m);
+    Polinom operator-(const Monom& m);
+    Polinom operator*(const Monom& m);
 
     Polinom operator+(double c);
     Polinom operator-(double c);

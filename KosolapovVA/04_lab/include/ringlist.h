@@ -14,7 +14,7 @@ public:
     virtual void PushBack(const T& val, const int& key);
     virtual void PopBack();
     virtual const RingList& operator=(const RingList<T>& list);
-    virtual void PopBeforeCurr();
+    //virtual void PopBeforeCurr();
 };
 
 template <typename T>
@@ -22,9 +22,8 @@ RingList<T>::RingList(const RingList<T>& rlist) : HeadList<T>(rlist)
 {
     if (pLast != nullptr)
     {
-        pLast->pNext = pHead;
+        pLast->pNext = pStop;
     }
-    pStop = pHead;
 }
 template <typename T>
 RingList<T>::~RingList()
@@ -35,8 +34,7 @@ template <typename T>
 void RingList<T>::PushFront(const T& val, const int& key)
 {
     HeadList<T>::PushFront(val, key);
-    pLast->pNext = pHead;
-    pStop = pHead;
+    pLast->pNext = pStop;
 }
 
 template <typename T>
@@ -44,8 +42,8 @@ void RingList<T>::PopFront()
 {
     HeadList<T>::PopFront();
     if (pLast != nullptr)
-        pLast->pNext = pHead;
-    pStop = pHead;
+        pLast->pNext = pStop;
+    
 }
 template <typename T>
 void RingList<T>::PushBack(const T& val, const int& key)
@@ -56,8 +54,7 @@ void RingList<T>::PushBack(const T& val, const int& key)
         return;
     }
     HeadList<T>::PushBack(val, key);
-    pLast->pNext = pHead;
-    pStop = pHead;
+    pLast->pNext = pStop;
 }
 
 template <typename T>
@@ -70,8 +67,7 @@ void RingList<T>::PopBack()
     }
     HeadList<T>::PopBack();
     if(pLast!=nullptr)
-        pLast->pNext = pHead;
-    pStop = pHead;
+        pLast->pNext = pStop;
 
 }
 template <typename T>
@@ -79,18 +75,8 @@ const RingList<T>& RingList<T>::operator=(const RingList<T>& rlist)
 {
     HeadList<T>::operator=(rlist);
     if (pLast != nullptr)
-        pLast->pNext = pHead;
-    pStop = pHead;
+        pLast->pNext = pStop;
     return *this;
 }
-template <typename T>
-void RingList<T>::PopBeforeCurr()
-{
-    HeadList<T>::PopBeforeCurr();
-    if (pCurr == pHead)
-    {
-        pLast = pPrev;
-        pStop = pHead;
-    }
-}
+
 #endif //!RINGLIST_H

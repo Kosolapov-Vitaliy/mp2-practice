@@ -22,7 +22,7 @@ public:
     Monom operator*(const Monom& p);
     Monom operator*(double p);
 
-    double Calculate(double x, double y, double z);
+    double operator()(double x, double y, double z);
 
     const Monom& operator=(const Monom& m);
     bool operator==(const Monom& m) const

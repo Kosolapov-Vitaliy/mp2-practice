@@ -108,7 +108,7 @@ std::string Monom::Monom_to_str() {
     return res;
 }
 
-double Monom::Calculate(double x, double y, double z)
+double Monom::operator()(double x, double y, double z)
 {
     double res=coef;
     int tmp = degree;

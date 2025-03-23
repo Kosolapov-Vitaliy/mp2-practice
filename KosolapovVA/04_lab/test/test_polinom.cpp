@@ -1,5 +1,6 @@
 #include <gtest.h>
 #include "polinom.h"
+
 TEST(test_polynom, can_create_polynom)
 {
     ASSERT_NO_THROW(Polinom a);
@@ -89,7 +90,7 @@ TEST(test_polynom, correct_calculate_polynom)
 {
     std::string res = "4*x*y+2*x*z+2*y^2+y*z";
     Polinom result(res);
-    EXPECT_EQ(result.Calculate(1, 2, 3), 28);
+    EXPECT_EQ(result(1, 2, 3), 28);
 }
 TEST(test_polynom, correct_add_operator)
 {

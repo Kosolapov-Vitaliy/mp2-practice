@@ -14,6 +14,7 @@ public:
         pHead = new TNode<T>(T(), -1);
         pHead->pNext = pFirst;
         pPrev=pHead;
+        pStop = nullptr;
     }
     HeadList(const HeadList<T>& hlist);
     ~HeadList();
@@ -26,8 +27,8 @@ HeadList<T>::HeadList(const HeadList<T>& hlist):List<T>(hlist)
 {
     pHead = new TNode<T>(T(), -1);
     pHead->pNext = pFirst;
-    if (pCurr == pFirst && pFirst!=nullptr)
-        pPrev = pHead;
+    pCurr = pFirst;
+    pPrev = pHead;
 }
 template <typename T>
 HeadList<T>::~HeadList()
@@ -40,8 +41,7 @@ void HeadList<T>::PushFront(const T& val, const int& key)
 {
     List<T>::PushFront(val,key);
     pHead->pNext = pFirst;
-    if (pCurr == pFirst)
-        pPrev = pHead;
+    pPrev = pHead;
 }
 
  template <typename T>
@@ -49,10 +49,7 @@ void HeadList<T>::PushFront(const T& val, const int& key)
  {
      List<T>::PopFront();
      pHead->pNext = pFirst;
-     if (pFirst == nullptr)
-         pCurr = pHead;
-     if (pCurr == pFirst)
-         pPrev = pHead;
+     pPrev = pHead;
  }
 
  template <typename T>
@@ -61,8 +58,8 @@ void HeadList<T>::PushFront(const T& val, const int& key)
      List<T>::operator=(hlist);
      pHead = new TNode<T>(T(), -1);
      pHead->pNext = pFirst;
-     if (pCurr == pFirst && pFirst != nullptr)
-         pPrev = pHead;
+     pCurr = pFirst;
+     pPrev = pHead;
      return *this;
  }
 #endif // !HEADLIST_H

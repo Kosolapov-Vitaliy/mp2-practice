@@ -261,9 +261,9 @@ Polinom::Polinom(const std::string& str)
         if (i == (str.size() - 1))
         {
             if (l_symb == -1)
-                throw std::exception("Error: Empty infex form or empty after '('");
+                throw std::exception("Error: Empty string");
             if (l_symb == 2 || l_symb == 4 || l_symb == 5)
-                throw std::exception("Incorrect infex form");
+                throw std::exception("Incorrect polinom form");
             if (l_symb == 1)
             {
                 temp_coef = std::stod(tmp_2);
@@ -319,103 +319,102 @@ void Polinom::set_str()
 }
 Polinom Polinom::operator+(const Polinom& pol)
 {
-    Polinom res;
-    RingList<Monom> tmp1(monom);
-    RingList<Monom> tmp2(pol.monom);
-    RingList<Monom> monoms;
+    RingList<Monom> tmp1(pol.monom);
+    Polinom res(*this);
     tmp1.Reset();
     while (!tmp1.Is_End())
     {
-        int tmp_k = tmp1.CurrKey();
-        if (tmp2.CheckKey(tmp_k))
-        {
-            tmp2.SearchKey(tmp_k);
-            double coef = tmp2.GetCurr().coef + tmp1.GetCurr().coef;
-            if (coef != 0)
-                Monom_to_list(coef, tmp_k, monoms, 1);
-            tmp2.Next();
-            tmp2.PopBeforeCurr();
-        }
-        else if (!(tmp2.CheckKey(tmp_k)))
-        {
-            double coef =  tmp1.GetCurr().coef;
-            Monom_to_list(coef, tmp_k, monoms, 1);
-        }
+        res = res + tmp1.GetCurr();
         tmp1.Next();
-    }    
-    tmp2.Reset();
-    while (!tmp2.Is_End())
-    {
-        int tmp_k = tmp2.CurrKey();
-        double coef = tmp2.GetCurr().coef;
-        Monom_to_list(coef, tmp_k, monoms, 1);
-        tmp2.Next();
-    }
-    res.monom = monoms;
+    }       
     res.set_str();
     return res;
 }
 Polinom Polinom::operator-(const Polinom& pol)
 {
-    Polinom res;
-    RingList<Monom> tmp1(monom);
-    RingList<Monom> tmp2(pol.monom);
-    RingList<Monom> monoms;
+    RingList<Monom> tmp1(pol.monom);
+    Polinom res(*this);
     tmp1.Reset();
     while (!tmp1.Is_End())
     {
-        int tmp_k = tmp1.CurrKey();
-        if (tmp2.CheckKey(tmp_k))
-        {
-            tmp2.SearchKey(tmp_k);
-            double coef = tmp1.GetCurr().coef - tmp2.GetCurr().coef;
-            if(coef!=0)
-                Monom_to_list(coef, tmp_k, monoms, 1);
-            tmp2.Next();
-            tmp2.PopBeforeCurr();
-        }
-        else if (!(tmp2.CheckKey(tmp_k)))
-        {
-            double coef = tmp1.GetCurr().coef;
-            Monom_to_list(coef, tmp_k, monoms, 1);
-        }
+        res = res - tmp1.GetCurr();
         tmp1.Next();
     }
-    tmp2.Reset();
-    while (!tmp2.Is_End())
-    {
-        int tmp_k = tmp2.CurrKey();
-        double coef = tmp2.GetCurr().coef; 
-        Monom_to_list(coef, tmp_k, monoms, -1);
-        tmp2.Next();
-    }
-    res.monom = monoms;
     res.set_str();
     return res;
 }
 Polinom Polinom::operator*(const Polinom& pol)
 {
+    Polinom tmp(*this);
     Polinom res;
-    RingList<Monom> tmp1(monom);
-    RingList<Monom> tmp2(pol.monom);
-    RingList<Monom> monoms;
+    RingList<Monom> tmp1(pol.monom);
     tmp1.Reset();
     while (!tmp1.Is_End())
     {
-        tmp2.Reset();
-        while (!tmp2.Is_End())
-        {
-            Monom temp_res = tmp1.GetCurr()* tmp2.GetCurr();
-            if (monoms.CheckKey(temp_res.degree))
-            {
-                monoms.SearchKey(temp_res.degree);
-                temp_res =temp_res + monoms.GetCurr();
-                monoms.Next();
-                monoms.PopBeforeCurr();
-            }
-            Monom_to_list(temp_res.coef, temp_res.degree, monoms, 1);
-            tmp2.Next();
-        }
+        res = res+(tmp * tmp1.GetCurr());
+        tmp1.Next();
+    }
+    res.set_str();
+    return res;
+}
+
+
+Polinom Polinom::operator+(const Monom& m)
+{
+    Polinom res;
+    RingList<Monom> monoms(monom);
+    int tmp_k = m.degree;
+    if (monoms.CheckKey(m.degree))
+    {
+        monoms.SearchKey(m.degree);
+        Monom mres = monoms.GetCurr() + m;
+        if (mres.coef != 0)
+            monoms.PushAfterCurr(mres,mres.degree);
+        monoms.Next();
+        monoms.PopBeforeCurr();
+    }
+    else
+    {
+        double coef = m.coef;
+        Monom_to_list(coef, tmp_k, monoms, 1);
+    }
+    res.monom = monoms;
+    res.set_str();
+    return res;
+}
+Polinom Polinom::operator-(const Monom& m)
+{
+    Polinom res;
+    RingList<Monom> monoms(monom);
+    int tmp_k = m.degree;
+    if (monoms.CheckKey(m.degree))
+    {
+        monoms.SearchKey(m.degree);
+        Monom mres = monoms.GetCurr() - m;
+        if (mres.coef != 0)
+            monoms.PushAfterCurr(mres, mres.degree);
+        monoms.Next();
+        monoms.PopBeforeCurr();
+    }
+    else
+    {
+        double coef = m.coef;
+        Monom_to_list(coef, tmp_k, monoms, -1);
+    }
+    res.monom = monoms;
+    res.set_str();
+    return res;
+}
+Polinom Polinom::operator*(const Monom& m)
+{
+    Polinom res;
+    RingList<Monom> tmp1(monom);
+    tmp1.Reset();
+    RingList<Monom> monoms;
+    while (!tmp1.Is_End())
+    {
+        Monom tmp_m = tmp1.GetCurr() * m;
+        monoms.PushBack(tmp_m, tmp_m.degree);
         tmp1.Next();
     }
     res.monom = monoms;
@@ -473,6 +472,8 @@ Polinom Polinom::operator*(double c)
     return res;
 }
 
+
+
 bool Polinom::operator==(const Polinom& pol) const
 {
     RingList<Monom> tmp1(pol.monom);
@@ -493,14 +494,14 @@ bool Polinom::operator!=(const Polinom& pol) const
 {
     return(!(Polinom::operator==(pol)));
 }
-double Polinom::Calculate(double x, double y, double z)
+double Polinom::operator()(double x, double y, double z)
 {
     RingList<Monom> tmp1(monom);
     double res = 0;
     tmp1.Reset();
     for (int i = 0; i < tmp1.GetSZ(); i++)
     {
-        res += tmp1.GetCurr().Calculate(x, y, z);
+        res += tmp1.GetCurr()(x, y, z);
         tmp1.Next();
     }
     return res;

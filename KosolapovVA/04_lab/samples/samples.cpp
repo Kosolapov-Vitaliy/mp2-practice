@@ -4,6 +4,7 @@
 
 void main()
 {
+    
     try
     {
         std::cout << "Start workin polynoms.\n";
@@ -135,7 +136,7 @@ void main()
                 std::cout << "Enter z:" << "\n";
                 std::cin >> z;
                 std::cout << "\n";
-                res = curr.Calculate(x, y, z);
+                res = curr(x, y, z);
                 std::cout<<"Calculation result: " << res<<"\n";
                 std::cout << "Choose what you want to do:\n" << "Enter:\n" << "1: if you want to add a polynomial\n"
                     << "2: if you want to substruct a polynomial\n" << "3: if you want to multiply a polynomial\n"
