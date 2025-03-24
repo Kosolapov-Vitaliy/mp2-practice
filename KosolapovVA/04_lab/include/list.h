@@ -40,9 +40,8 @@ public:
     bool IsEmpty() const;
     void SearchKey(const int& key);
     bool CheckKey(const int& key);
-    T GetFirst() { return pFirst->data; };
-    T GetCurr() { return pCurr->data; };
-    int CurrKey() { return pCurr->key; };
+    T GetFirst() const { return pFirst->data; };
+    T GetCurr() const { return pCurr->data; };
     void PushAfterKey(const T& val, const int& key, int ch_key);
     void PushBeforeKey(const T& val, const int& key, int ch_key);
     void PopAftterKey(int ch_key);

@@ -464,7 +464,7 @@ Polinom Polinom::operator*(double c)
     RingList<Monom> monoms;
     while (!tmp1.Is_End())
     {
-        monoms.PushBack(tmp1.GetCurr() * c, tmp1.CurrKey());
+        monoms.PushBack(tmp1.GetCurr() * c, tmp1.GetCurr().degree);
         tmp1.Next();
     }
     res.monom = monoms;

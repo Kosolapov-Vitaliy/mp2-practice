@@ -33,6 +33,10 @@ public:
     {
         return(!(operator==(m)));
     }
+    bool operator>=(const Monom& m);
+    bool operator<=(const Monom& m);
+    bool operator>(const Monom& m);
+    bool operator<(const Monom& m);
 };
 
 #endif // !MONOM_H

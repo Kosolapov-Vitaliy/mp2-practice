@@ -14,7 +14,6 @@ public:
     virtual void PushBack(const T& val, const int& key);
     virtual void PopBack();
     virtual const RingList& operator=(const RingList<T>& list);
-    //virtual void PopBeforeCurr();
 };
 
 template <typename T>

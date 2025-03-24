@@ -123,3 +123,20 @@ double Monom::operator()(double x, double y, double z)
     }
     return res;
 }
+
+bool Monom::operator>=(const Monom& m)
+{
+    return(degree >= m.degree);
+}
+bool Monom::operator<=(const Monom& m)
+{
+    return(degree <= m.degree);
+}
+bool Monom::operator>(const Monom& m)
+{
+    return(degree > m.degree);
+}
+bool Monom::operator<(const Monom& m)
+{
+    return(degree < m.degree);
+}
