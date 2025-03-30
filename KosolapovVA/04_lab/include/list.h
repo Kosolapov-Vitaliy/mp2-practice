@@ -47,10 +47,12 @@ public:
     virtual void Next();
     void Reset() { pCurr = pFirst; pPrev = pStop; };
     bool Is_End() { return (pCurr == pStop); };
+    /*
     void PushAfterCurr(const T& val, const int& key);
     void PushBeforeCurr(const T& val, const int& key);
     void PopAftterCurr();
     void PopBeforeCurr();
+    */
     
 };
 
