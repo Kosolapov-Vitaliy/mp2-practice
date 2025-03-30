@@ -177,6 +177,7 @@ TEST(test_ringlist, correct_push_before_key)
     a.Reset();
     EXPECT_EQ(17, a.GetCurr());
 }
+/*
 TEST(test_ringlist, can_push_after_curr)
 {
     RingList<int> a;
@@ -244,3 +245,5 @@ TEST(test_ringlist, correct_pop_before_curr)
     a.PopBeforeCurr();
     EXPECT_EQ(nullptr, a.SearchKey(4));
 }
+
+*/

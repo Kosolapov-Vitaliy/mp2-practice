@@ -177,6 +177,7 @@ TEST(test_list, correct_push_before_key)
     a.Reset();
     EXPECT_EQ(17, a.GetCurr());
 }
+/*
 TEST(test_list, can_push_after_curr)
 {
     List<int> a;
@@ -244,3 +245,4 @@ TEST(test_list, correct_pop_before_curr)
     a.PopBeforeCurr();
     EXPECT_EQ(nullptr, a.SearchKey(4));
 }
+*/

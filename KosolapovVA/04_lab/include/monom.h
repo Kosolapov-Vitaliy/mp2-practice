@@ -6,7 +6,7 @@ class Monom {
 public:
     double coef;
     int degree;
-    Monom() :coef(0), degree(0) {};
+    Monom() :coef(0), degree(-1) {};
     Monom(double cf, int dg) :coef(cf)
     {
         if (dg >= 0 && dg <= 999)

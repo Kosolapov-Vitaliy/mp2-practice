@@ -73,6 +73,7 @@ template <typename T>
 const RingList<T>& RingList<T>::operator=(const RingList<T>& rlist)
 {
     HeadList<T>::operator=(rlist);
+    pStop = pHead;
     if (pLast != nullptr)
         pLast->pNext = pStop;
     return *this;

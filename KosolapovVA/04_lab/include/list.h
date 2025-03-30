@@ -173,7 +173,7 @@ bool List<T>::operator==(const List<T>& list) const
 template <typename T>
 void List<T>::PushBack(const T& val, const int& key)
 {
-    if (pFirst == nullptr)
+    if (IsEmpty())
     {
         PushFront(val, key);
         return;
@@ -189,7 +189,7 @@ template<typename T>
 void List<T>::PushFront(const T& val, const int& key)
 {
     TNode<T>* node = new TNode<T>(val,key);
-    if (pFirst == nullptr)
+    if (IsEmpty())
     {
         pFirst = node;
         pCurr = node;
@@ -245,7 +245,7 @@ void List<T>::PopFront()
 template <typename T>
 bool List<T>::IsEmpty() const
 {
-    return (pFirst == nullptr);
+    return ((pFirst == nullptr)||(pFirst==pStop));
 }
 
 template <typename T>
@@ -258,7 +258,8 @@ TNode<T>* List<T>::SearchKey(const int& key)
     {        
         if (pCurr->key == key)
             return pCurr;
-        pCurr = pCurr->pNext;
+        pPrev = pCurr;
+        pCurr = pCurr->pNext;        
     }
     return nullptr;
 }
@@ -270,6 +271,18 @@ void List<T>::Remove(const int& key)
         throw std::exception("Error");    
     if (SearchKey(key) == nullptr)
         throw std::exception("List havenot this key");
+    if (pCurr == pFirst)
+    {
+        PopFront();
+        Reset();
+        return;
+    }
+    if (pCurr == pLast)
+    {
+        PopBack();
+        Reset();
+        return;
+    }
     TNode<T>* tmp = pCurr->pNext;
     delete pCurr;
     pPrev->pNext = tmp;
@@ -332,6 +345,7 @@ void List<T>::Next()
     pCurr = pCurr->pNext;
 }
 
+/*
 template <typename T>
 void List<T>::PushAfterCurr(const T& val, const int& key)
 {
@@ -414,5 +428,6 @@ void List<T>::PopBeforeCurr()
     pPrev = tmp;
     pPrev->pNext = pCurr;
 }
+*/
 
 #endif // !LIST_H

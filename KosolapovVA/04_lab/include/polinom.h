@@ -3,6 +3,7 @@
 
 #include "ringlist.h"
 #include "monom.h"
+#include "polinom_helpfunc.h"
 #include <string>
 class Polinom
 {

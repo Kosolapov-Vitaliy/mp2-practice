@@ -4,12 +4,10 @@
 
 void main()
 {
-    std::string ina = "2*x+y";
-    std::string inb = "2*y+z";
-    std::string res = "4*x*y+2*x*z+2*y^2+y*z";
+    std::string ina = "4*x^2*y*z^3+5*x^3*y*z^2-3*x*y^2+y*z^2-x^3*y";
+    std::string inb = "10*x^3*y^3*z^3+4*x^2*y*z^3-2*x^3*y*z^2+x*y*z";
     Polinom a(ina);
     Polinom b(inb);
-    Polinom result(res);
-    Polinom fil = a * b;
-    std::cout <<a<<"\n" << fil << "\n" << result << "\n";    
+    Polinom fil = a - b;
+    std::cout  << fil << "\n";   
 }
