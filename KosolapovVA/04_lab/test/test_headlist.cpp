@@ -107,27 +107,6 @@ TEST(test_headlist, is_empty_true_when_list_empty)
     EXPECT_EQ(true, a.IsEmpty());
 }
 
-TEST(test_headlist, correct_search_key)
-{
-    HeadList<int> a;
-    a.PushBack(8, 4);
-    a.PushBack(10, 5);
-    //EXPECT_EQ(10, a.SearchKey(5));
-}
-TEST(test_headlist, checkkey_true_when_key_in_list)
-{
-    HeadList<int> a;
-    a.PushBack(8, 4);
-    a.PushBack(10, 5);
-    EXPECT_EQ(true, a.CheckKey(5));
-}
-TEST(test_headlist, checkkey_false_when_key_isnot_in_list)
-{
-    HeadList<int> a;
-    a.PushBack(8, 4);
-    a.PushBack(10, 5);
-    EXPECT_EQ(false, a.CheckKey(7));
-}
 TEST(test_headlist, correct_get_cur)
 {
     HeadList<int> a;
@@ -199,50 +178,6 @@ TEST(test_headlist, correct_push_before_key)
     a.Reset();
     EXPECT_EQ(17, a.GetCurr());
 }
-TEST(test_headlist, can_pop_after_key)
-{
-    HeadList<int> a;
-    a.PushBack(8, 4);
-    a.PushBack(10, 5);
-    ASSERT_NO_THROW(a.PopAftterKey(4));
-}
-TEST(test_headlist, can_pop_before_key)
-{
-    HeadList<int> a;
-    a.PushBack(8, 4);
-    a.PushBack(10, 5);
-    ASSERT_NO_THROW(a.PopBeforeKey(5));
-}
-TEST(test_headlist, cant_pop_after_key_when_key_isnt_inlist)
-{
-    HeadList<int> a;
-    a.PushBack(8, 4);
-    a.PushBack(10, 5);
-    ASSERT_ANY_THROW(a.PopAftterKey(8));
-}
-TEST(test_headlist, cant_pop_before_key_when_key_isnt_inlist)
-{
-    HeadList<int> a;
-    a.PushBack(8, 4);
-    a.PushBack(10, 5);
-    ASSERT_ANY_THROW(a.PopBeforeKey(8));
-}
-TEST(test_headlist, correct_pop_after_key)
-{
-    HeadList<int> a;
-    a.PushBack(8, 4);
-    a.PushBack(10, 5);
-    a.PopAftterKey(4);
-    EXPECT_EQ(false, a.CheckKey(5));
-}
-TEST(test_headlist, correct_pop_before_key)
-{
-    HeadList<int> a;
-    a.PushBack(8, 4);
-    a.PushBack(10, 5);
-    a.PopBeforeKey(5);
-    EXPECT_EQ(false, a.CheckKey(4));
-}
 TEST(test_headlist, can_push_after_curr)
 {
     HeadList<int> a;
@@ -299,7 +234,7 @@ TEST(test_headlist, correct_pop_after_curr)
     a.PushBack(8, 4);
     a.PushBack(10, 5);
     a.PopAftterCurr();
-    EXPECT_EQ(false, a.CheckKey(5));
+    EXPECT_EQ(nullptr, a.SearchKey(5));
 }
 TEST(test_headlist, correct_pop_before_curr)
 {
@@ -308,5 +243,5 @@ TEST(test_headlist, correct_pop_before_curr)
     a.PushBack(10, 5);
     a.Next();
     a.PopBeforeCurr();
-    EXPECT_EQ(false, a.CheckKey(4));
+    EXPECT_EQ(nullptr, a.SearchKey(4));
 }

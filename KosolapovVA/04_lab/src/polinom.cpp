@@ -17,7 +17,7 @@ bool check_Oper(char s) //
 void Monom_to_list(double& temp_coef, int& temp_degree, RingList<Monom>& tmp_1, int sgn)
 {
     temp_coef *= sgn;
-    if (!(tmp_1.CheckKey(temp_degree)))
+    if (tmp_1.SearchKey(temp_degree)==nullptr)
     {
         if(tmp_1.IsEmpty())
             tmp_1.PushBack(Monom(temp_coef, temp_degree), temp_degree);
@@ -36,7 +36,7 @@ void Monom_to_list(double& temp_coef, int& temp_degree, RingList<Monom>& tmp_1, 
             tmp_1.PushBack(Monom(temp_coef, temp_degree), temp_degree);
         }
     }        
-    else if (tmp_1.CheckKey(temp_degree))
+    else if (tmp_1.SearchKey(temp_degree) != nullptr)
     {
         tmp_1.SearchKey(temp_degree);
         temp_coef += tmp_1.GetCurr().coef;       
@@ -295,7 +295,7 @@ Polinom::Polinom(const std::string& str)
         
     }        
     monom = tmp_1;
-    set_str();
+    polinom = str;
 }
 
 void Polinom::set_str()
@@ -364,7 +364,7 @@ Polinom Polinom::operator+(const Monom& m)
     Polinom res;
     RingList<Monom> monoms(monom);
     int tmp_k = m.degree;
-    if (monoms.CheckKey(m.degree))
+    if (monoms.SearchKey(m.degree)!=nullptr)
     {
         monoms.SearchKey(m.degree);
         Monom mres = monoms.GetCurr() + m;
@@ -387,7 +387,7 @@ Polinom Polinom::operator-(const Monom& m)
     Polinom res;
     RingList<Monom> monoms(monom);
     int tmp_k = m.degree;
-    if (monoms.CheckKey(m.degree))
+    if (monoms.SearchKey(m.degree) != nullptr)
     {
         monoms.SearchKey(m.degree);
         Monom mres = monoms.GetCurr() - m;
@@ -427,7 +427,7 @@ Polinom Polinom::operator+(double c)
     Polinom res;
     RingList<Monom> tmp1(monom);
     Monom tres(c,0);
-    if (tmp1.CheckKey(0))
+    if (tmp1.SearchKey(0)!=nullptr)
     {
         tmp1.SearchKey(0);
         tres = tres + tmp1.GetCurr();
@@ -444,7 +444,7 @@ Polinom Polinom::operator-(double c)
     Polinom res;
     RingList<Monom> tmp1(monom);
     Monom tres(-c, 0);
-    if (tmp1.CheckKey(0))
+    if (tmp1.SearchKey(0) != nullptr)
     {
         tmp1.SearchKey(0);
         tres = tres + tmp1.GetCurr();
