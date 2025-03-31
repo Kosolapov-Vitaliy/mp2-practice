@@ -10,6 +10,8 @@ class Polinom
 private:
 	RingList<Monom> monom;
 	std::string polinom;
+
+    void set_str();
 public:
     Polinom()
     {
@@ -18,8 +20,8 @@ public:
 	Polinom(const std::string& str);
 	Polinom(const Polinom& pol) :monom(pol.monom), polinom(pol.polinom){};
 
-    void set_str();
-    double operator()(double x, double y, double z);
+
+    double operator()(double x, double y, double z) const;
 
     Polinom operator+(const Polinom& p);
     Polinom operator-(const Polinom& p);
@@ -31,7 +33,7 @@ public:
 
     Polinom operator+(double c);
     Polinom operator-(double c);
-    Polinom operator*(double c);
+    const Polinom operator*(double c) const;
 
     bool operator==(const Polinom& p) const;
     bool operator!=(const Polinom& p) const;

@@ -109,17 +109,10 @@ Polinom Polinom::operator+(const Polinom& pol)
     res.set_str();
     return res;
 }
-Polinom Polinom::operator-(const Polinom& pol)
+Polinom Polinom::operator-(const Polinom& pol) // TODO: p1+p2*(-1.0)
 {
-    RingList<Monom> tmp1(pol.monom);
     Polinom res(*this);
-    tmp1.Reset();
-    while (!tmp1.Is_End())
-    {
-        res = res - tmp1.GetCurr();
-        tmp1.Next();
-    }
-    res.set_str();
+    res = res + (pol * (-1.0));
     return res;
 }
 Polinom Polinom::operator*(const Polinom& pol)
@@ -145,10 +138,9 @@ Polinom Polinom::operator+(const Monom& m)
     int tmp_k = m.degree;
     if (monoms.SearchKey(m.degree)!=nullptr)
     {
-        monoms.SearchKey(m.degree);
         Monom mres = monoms.GetCurr() + m;
         monoms.Next();
-        int key_ac=monoms.GetCurr().degree;
+        int key_ac = monoms.GetCurr().degree;
         monoms.Remove(mres.degree);
         if (mres.coef != 0)
         {
@@ -167,33 +159,11 @@ Polinom Polinom::operator+(const Monom& m)
     res.set_str();
     return res;
 }
-Polinom Polinom::operator-(const Monom& m)
+Polinom Polinom::operator-(const Monom& m) // TODO: p+m*(-1.0)
 {
     Polinom res;
-    RingList<Monom> monoms(monom);
-    int tmp_k = m.degree;
-    if (monoms.SearchKey(m.degree) != nullptr)
-    {
-        monoms.SearchKey(m.degree);
-        Monom mres = monoms.GetCurr() - m; 
-        monoms.Next();
-        int key_ac = monoms.GetCurr().degree;
-        monoms.Remove(mres.degree);
-        if (mres.coef != 0)
-        {
-            if (key_ac != -1)
-                monoms.PushBeforeKey(mres, mres.degree, key_ac);
-            else
-                monoms.PushBack(mres, mres.degree);
-        }
-    }
-    else
-    {
-        double coef = m.coef;
-        Monom_to_list(coef, tmp_k, monoms, -1);
-    }
-    res.monom = monoms;
-    res.set_str();
+    Polinom pol(*this);
+    res = pol + (m * (-1.0));
     return res;
 }
 Polinom Polinom::operator*(const Monom& m)
@@ -213,39 +183,23 @@ Polinom Polinom::operator*(const Monom& m)
     return res;
 }
 
-Polinom Polinom::operator+(double c)
+Polinom Polinom::operator+(double c) // TODO: p+tres
 {
     Polinom res;
-    RingList<Monom> tmp1(monom);
+    Polinom tmp1(*this);
     Monom tres(c,0);
-    if (tmp1.SearchKey(0)!=nullptr)
-    {
-        tmp1.SearchKey(0);
-        tres = tres + tmp1.GetCurr();
-        tmp1.Remove(0);
-    }
-    tmp1.PushFront(tres, 000);
-    res.monom = tmp1;
-    res.set_str();
+    res = tmp1 + tres;
     return res;
 }
-Polinom Polinom::operator-(double c)
+Polinom Polinom::operator-(double c) // TODO: p-tres
 {
     Polinom res;
-    RingList<Monom> tmp1(monom);
-    Monom tres(-c, 0);
-    if (tmp1.SearchKey(0) != nullptr)
-    {
-        tmp1.SearchKey(0);
-        tres = tres + tmp1.GetCurr();
-        tmp1.Remove(0);
-    }
-    tmp1.PushFront(tres, 000);
-    res.monom = tmp1;
-    res.set_str();
+    Polinom tmp1(*this);
+    Monom tres(c, 0);
+    res = tmp1 - tres;
     return res;
 }
-Polinom Polinom::operator*(double c)
+const Polinom Polinom::operator*(double c) const
 {
     Polinom res; 
     RingList<Monom> tmp1(monom);
@@ -283,7 +237,7 @@ bool Polinom::operator!=(const Polinom& pol) const
 {
     return(!(Polinom::operator==(pol)));
 }
-double Polinom::operator()(double x, double y, double z)
+double Polinom::operator()(double x, double y, double z) const
 {
     RingList<Monom> tmp1(monom);
     double res = 0;

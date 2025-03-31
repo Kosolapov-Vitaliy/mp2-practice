@@ -127,3 +127,31 @@ TEST(test_polynom, correct_create_copied)
     Polinom s(a);
     EXPECT_EQ(s, a);
 }
+TEST(Polinom, test_sum)
+{
+    Polinom p1("x+1");
+    Polinom p2("x-1");
+    EXPECT_EQ(p1 + p2, Polinom("2*x"));
+}
+
+TEST(Polinom, test_sub)
+{
+    Polinom p1("x+1");
+    Polinom p2("x-1");
+    EXPECT_EQ(p1 - p2, Polinom("2"));
+}
+
+TEST(Polinom, test_multi)
+{
+    Polinom p1("x+1");
+    Polinom p2("x-1");
+    EXPECT_EQ(p1 * p2, Polinom("x^2-1"));
+}
+
+// 2xy^2z+z^4y-xz^9+x^3-yz^4
+TEST(Polinom, test_sum1)
+{
+    Polinom p1("2*x*y^2*z+z^4*y");
+    Polinom p2("-x*z^9+x^3-y*z^4");
+    EXPECT_EQ(p1 + p2, Polinom("x^3+2*x*y^2*z-x*z^9"));
+}

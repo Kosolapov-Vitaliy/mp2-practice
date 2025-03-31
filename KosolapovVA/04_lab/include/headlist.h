@@ -22,6 +22,7 @@ public:
     virtual void PopFront();
     virtual const HeadList& operator=(const HeadList<T>& list);
 };
+
 template <typename T>
 HeadList<T>::HeadList(const HeadList<T>& hlist):List<T>(hlist)
 {

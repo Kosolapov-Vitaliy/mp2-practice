@@ -17,7 +17,7 @@ void Monom_to_list(double& temp_coef, int& temp_degree, RingList<Monom>& tmp_1, 
     temp_coef *= sgn;
     if (tmp_1.SearchKey(temp_degree) != nullptr)
     {
-        tmp_1.SearchKey(temp_degree);  //Возможно не нужная строка
+        //tmp_1.SearchKey(temp_degree);
         temp_coef += tmp_1.GetCurr().coef;
         tmp_1.Remove(temp_degree);
     }
@@ -62,7 +62,7 @@ void Monom_to_list(double& temp_coef, int& temp_degree, RingList<Monom>& tmp_1, 
     }
     else if (tmp_1.SearchKey(temp_degree) != nullptr)
     {
-        tmp_1.SearchKey(temp_degree);  //Возможно не нужная строка
+        tmp_1.SearchKey(temp_degree);
         temp_coef += tmp_1.GetCurr().coef;
         tmp_1.Next();
         tmp_1.PopBeforeCurr();

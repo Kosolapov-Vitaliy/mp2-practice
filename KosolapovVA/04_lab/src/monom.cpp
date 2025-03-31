@@ -1,7 +1,7 @@
 #include "monom.h"
 #include <sstream>
 
-Monom Monom::operator+(const Monom& mon)
+const Monom Monom::operator+(const Monom& mon)
 {
     if (degree == mon.degree) {
         return Monom(coef + mon.coef, degree);
@@ -10,7 +10,7 @@ Monom Monom::operator+(const Monom& mon)
         throw std::exception("Diff degree");
     }
 }
-Monom Monom::operator-(const Monom& mon)
+const Monom Monom::operator-(const Monom& mon)
 {
     if (degree == mon.degree) {
         return Monom(coef - mon.coef, degree);
@@ -19,7 +19,7 @@ Monom Monom::operator-(const Monom& mon)
         throw std::exception("Diff degree");
     }
 }
-Monom Monom::operator*(const Monom& mon)
+const Monom Monom::operator*(const Monom& mon)
 {
     int temp_x =degree/100+mon.degree/100;
     int temp_y = ((degree / 10) % 10) + ((mon.degree / 10) % 10);
@@ -30,7 +30,7 @@ Monom Monom::operator*(const Monom& mon)
     return Monom(coef * mon.coef, (temp_z + temp_y*10 + temp_x*100));
 }
 
-Monom Monom::operator*(double c)
+const Monom Monom::operator*(double c) const
 {
     return Monom(coef * c, degree);
 }
@@ -43,7 +43,7 @@ const Monom& Monom::operator=(const Monom& mon)
     return *this;
 }
 
-std::string Monom::Monom_to_str() {
+std::string Monom::Monom_to_str() const {
     std::string res;
     if (coef > 0) {
         res += "+";
@@ -108,7 +108,7 @@ std::string Monom::Monom_to_str() {
     return res;
 }
 
-double Monom::operator()(double x, double y, double z)
+double Monom::operator()(double x, double y, double z) const
 {
     double res=coef;
     int tmp = degree;
@@ -124,19 +124,23 @@ double Monom::operator()(double x, double y, double z)
     return res;
 }
 
-bool Monom::operator>=(const Monom& m)
+bool Monom::operator>=(const Monom& m) const
 {
-    return(degree >= m.degree);
+    if (degree == m.degree)
+        return(coef >= m.coef);
+    return(degree > m.degree);
 }
-bool Monom::operator<=(const Monom& m)
+bool Monom::operator<=(const Monom& m) const
 {
-    return(degree <= m.degree);
+    if (degree == m.degree)
+        return(coef <= m.coef);
+    return(degree < m.degree);
 }
-bool Monom::operator>(const Monom& m)
+bool Monom::operator>(const Monom& m) const
 {
     return(degree > m.degree);
 }
-bool Monom::operator<(const Monom& m)
+bool Monom::operator<(const Monom& m) const
 {
     return(degree < m.degree);
 }

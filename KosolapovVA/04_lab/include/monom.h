@@ -15,14 +15,14 @@ public:
             throw std::exception("Incorrect degree");
     };
     Monom(const Monom& mon):coef(mon.coef), degree(mon.degree) {};
-    std::string Monom_to_str();
+    std::string Monom_to_str() const;
 
-    Monom operator+(const Monom& p);
-    Monom operator-(const Monom& p);
-    Monom operator*(const Monom& p);
-    Monom operator*(double p);
+    const Monom operator+(const Monom& p);
+    const Monom operator-(const Monom& p);
+    const Monom operator*(const Monom& p);
+    const Monom operator*(double p) const;
 
-    double operator()(double x, double y, double z);
+    double operator()(double x, double y, double z) const;
 
     const Monom& operator=(const Monom& m);
     bool operator==(const Monom& m) const
@@ -33,10 +33,10 @@ public:
     {
         return(!(operator==(m)));
     }
-    bool operator>=(const Monom& m);
-    bool operator<=(const Monom& m);
-    bool operator>(const Monom& m);
-    bool operator<(const Monom& m);
+    bool operator>=(const Monom& m) const;
+    bool operator<=(const Monom& m) const;
+    bool operator>(const Monom& m) const;
+    bool operator<(const Monom& m) const;
 };
 
 #endif // !MONOM_H

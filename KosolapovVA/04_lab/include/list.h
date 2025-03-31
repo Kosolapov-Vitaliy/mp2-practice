@@ -46,23 +46,17 @@ public:
     void Remove(const int& key);
     virtual void Next();
     void Reset() { pCurr = pFirst; pPrev = pStop; };
-    bool Is_End() { return (pCurr == pStop); };
-    /*
-    void PushAfterCurr(const T& val, const int& key);
-    void PushBeforeCurr(const T& val, const int& key);
-    void PopAftterCurr();
-    void PopBeforeCurr();
-    */
-    
+    bool Is_End() const { return (pCurr == pStop); };
 };
 
 
 template <typename T>
-List<T>::List(const List<T>& list) : pFirst(nullptr), pCurr(nullptr), pPrev(nullptr), pLast(nullptr),pStop(nullptr)
+List<T>::List(const List<T>& list) : pFirst(nullptr), pCurr(nullptr),
+        pPrev(nullptr), pLast(nullptr),pStop(nullptr)
 {
     if (list.pFirst == nullptr)
         return;
-    pFirst = new TNode<T>(*list.pFirst );
+    pFirst = new TNode<T>(*list.pFirst);
     TNode<T>* pNew = pFirst;
     pCurr = pFirst;
     while (pNew->pNext != list.pStop)
@@ -117,11 +111,7 @@ const List<T>& List<T>::operator=(const List<T>& list)
     }
     if (this != &list)
     {
-        this->DelList();
-        /*
-        List<T> res = new List<T>(list);
-        return res;
-        */     
+        this->DelList();     
         pFirst = new TNode<T>(*list.pFirst);
         TNode<T>* pNew = pFirst;
         while (pNew->pNext != list.pStop)
@@ -340,96 +330,10 @@ void List<T>::Next()
 {
     if (pCurr == pStop)
     {
-        //throw std::exception("Error:Last element");
         Reset();
     }        
     pPrev = pCurr;
     pCurr = pCurr->pNext;
 }
-
-/*
-template <typename T>
-void List<T>::PushAfterCurr(const T& val, const int& key)
-{
-    if (pCurr==nullptr)
-        throw std::exception("Error: List is empty");
-    TNode<T>* node = new TNode<T>(val, key);
-    if (pCurr == pLast)
-    {
-        TNode<T>* curr = pCurr;
-        TNode<T>* prev = pPrev;
-        PushBack(val, key);
-        pCurr = curr;
-        pPrev = prev;
-        return;
-    }
-    TNode<T>* tmp = pCurr->pNext;
-    pCurr->pNext = node;
-    node->pNext = tmp;
-}
-
-template <typename T>
-void List<T>::PushBeforeCurr(const T& val, const int& key)
-{
-    if (pCurr==nullptr)
-        throw std::exception("Error: List is empty!");
-    TNode<T>* node = new TNode<T>(val, key);
-    if (pCurr == pFirst)
-    {
-        PushFront(val, key);
-        pPrev = pCurr;
-        pCurr = pCurr->pNext;
-        return;
-    }
-    pPrev->pNext = node;
-    node->pNext = pCurr;
-    pPrev = node;
-}
-
-template <typename T>
-void List<T>::PopAftterCurr()
-{
-    if (IsEmpty())
-        throw std::exception("Error: List is empty");
-    if (pCurr == pLast)
-        return;
-    if (pCurr->pNext == pLast)
-    {
-        TNode<T>* curr = pCurr;
-        TNode<T>* prev = pPrev;
-        PopBack();
-        pCurr = curr;
-        pPrev = prev;
-        return;
-    }
-    TNode<T>* tmp = pCurr->pNext->pNext;
-    delete pCurr->pNext;
-    pCurr->pNext == tmp;
-}
-
-template <typename T>
-void List<T>::PopBeforeCurr()
-{
-    if (IsEmpty())
-        throw std::exception("Error: List is empty");
-    if (pCurr == pFirst)
-        return;
-    if (pPrev == pFirst)
-    {
-        TNode<T>* curr = pCurr;
-        TNode<T>* prev = pPrev;
-        PopFront();
-        pCurr = curr;
-        pPrev = prev;
-        return;
-    }
-    TNode<T>* tmp = pFirst;
-    while (tmp->pNext != pPrev)
-        tmp = tmp->pNext;
-    delete pPrev;
-    pPrev = tmp;
-    pPrev->pNext = pCurr;
-}
-*/
 
 #endif // !LIST_H
