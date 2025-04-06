@@ -38,37 +38,6 @@ void Monom_to_list(double& temp_coef, int& temp_degree, RingList<Monom>& tmp_1, 
         }
         tmp_1.PushBack(Monom(temp_coef, temp_degree), temp_degree);
     }
-    //alternative variant
-    /*temp_coef *= sgn;
-    if (tmp_1.SearchKey(temp_degree) == nullptr)
-    {
-        if (tmp_1.IsEmpty())
-            tmp_1.PushBack(Monom(temp_coef, temp_degree), temp_degree);
-        else
-        {
-            tmp_1.Reset();
-            while ((!(tmp_1.Is_End())))
-            {
-                int curr_key = tmp_1.GetCurr().degree;
-                if (curr_key > temp_degree)
-                {
-                    tmp_1.PushBeforeKey(Monom(temp_coef, temp_degree), temp_degree, curr_key);
-                    return;
-                }
-                tmp_1.Next();
-            }
-            tmp_1.PushBack(Monom(temp_coef, temp_degree), temp_degree);
-        }
-    }
-    else if (tmp_1.SearchKey(temp_degree) != nullptr)
-    {
-        tmp_1.SearchKey(temp_degree);
-        temp_coef += tmp_1.GetCurr().coef;
-        tmp_1.Next();
-        tmp_1.PopBeforeCurr();
-        tmp_1.PushBeforeCurr(Monom(temp_coef, temp_degree), temp_degree);
-    }
-    */
 }
 
 void Check_start(int& l_symb, char str, double& temp_coef, char& l_var, std::string& tmp_2, int& sgn)

@@ -2,8 +2,7 @@
 #define MONOM_H
 #include <iostream>
 #include <string>
-class Monom {
-public:
+struct Monom {
     double coef;
     int degree;
     Monom() :coef(0), degree(-1) {};

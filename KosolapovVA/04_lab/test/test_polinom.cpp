@@ -148,7 +148,6 @@ TEST(Polinom, test_multi)
     EXPECT_EQ(p1 * p2, Polinom("x^2-1"));
 }
 
-// 2xy^2z+z^4y-xz^9+x^3-yz^4
 TEST(Polinom, test_sum1)
 {
     Polinom p1("2*x*y^2*z+z^4*y");

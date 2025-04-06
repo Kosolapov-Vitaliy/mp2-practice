@@ -4,7 +4,18 @@
 
 void main()
 {
-    
+    std::string str_chois_action = "Choose what you want to do:\n \
+        Enter:\n \
+        1: if you want to add a polynomial\n \
+        2: if you want to substruct a polynomial\n \
+        3: if you want to multiply a polynomial\n \
+        4: if you want to add a constant\n \
+        5: if you want to substruct a constant\n \
+        6: if you want to multiply a constant\n \
+        7: if you want to calculate the current polynomial\n \
+        8: if you want to clear the current polynomial\n \
+        -1: if you want to finish\n";
+    std::cout << "Enter your selection: ";
     try
     {
         std::cout << "Start workin polynoms.\n";
@@ -24,12 +35,7 @@ void main()
                 std::cin >> instr;
                 std::cout << "\n";
                 curr = Polinom(instr);
-                std::cout << "Choose what you want to do:\n" << "Enter:\n" << "1: if you want to add a polynomial\n"
-                    << "2: if you want to substruct a polynomial\n" << "3: if you want to multiply a polynomial\n"
-                    << "4: if you want to add a constant\n" << "5: if you want to substruct a constant\n"
-                    << "6: if you want to multiply a constant\n" << "7: if you want to calculate the current polynomial\n"
-                    << "8: if you want to clear the current polynomial\n" << "-1: if you want to finish\n";
-                std::cout << "Enter your selection: ";
+                std::cout << str_chois_action;
                 std::cin >> flag;
                 std::cout << "\n";
                 break;
@@ -39,13 +45,8 @@ void main()
                 std::cout << "\n";
                 temp = Polinom(instr);
                 curr = curr + temp;
-                std::cout << "Result\n"<<curr;
-                std::cout << "Choose what you want to do:\n" << "Enter:\n" << "1: if you want to add a polynomial\n"
-                    << "2: if you want to substruct a polynomial\n" << "3: if you want to multiply a polynomial\n"
-                    << "4: if you want to add a constant\n" << "5: if you want to substruct a constant\n"
-                    << "6: if you want to multiply a constant\n" << "7: if you want to calculate the current polynomial\n"
-                    << "8: if you want to clear the current polynomial\n" << "-1: if you want to finish\n";
-                std::cout << "Enter your selection: ";
+                std::cout << "Result\n"<<curr<<"\n";
+                std::cout << str_chois_action;
                 std::cin >> flag;
                 std::cout << "\n";
                 break;
@@ -55,13 +56,8 @@ void main()
                 std::cout << "\n";
                 temp = Polinom(instr);
                 curr = curr - temp;
-                std::cout << "Result\n" << curr;
-                std::cout << "Choose what you want to do:\n" << "Enter:\n" << "1: if you want to add a polynomial\n"
-                    << "2: if you want to substruct a polynomial\n" << "3: if you want to multiply a polynomial\n"
-                    << "4: if you want to add a constant\n" << "5: if you want to substruct a constant\n"
-                    << "6: if you want to multiply a constant\n" << "7: if you want to calculate the current polynomial\n"
-                    << "8: if you want to clear the current polynomial\n" << "-1: if you want to finish\n";
-                std::cout << "Enter your selection: ";
+                std::cout << "Result\n" << curr << "\n";
+                std::cout << str_chois_action;
                 std::cin >> flag;
                 std::cout << "\n";
                 break;
@@ -71,13 +67,8 @@ void main()
                 std::cout << "\n";
                 temp = Polinom(instr);
                 curr = curr * temp;
-                std::cout << "Result\n" << curr;
-                std::cout << "Choose what you want to do:\n" << "Enter:\n" << "1: if you want to add a polynomial\n"
-                    << "2: if you want to substruct a polynomial\n" << "3: if you want to multiply a polynomial\n"
-                    << "4: if you want to add a constant\n" << "5: if you want to substruct a constant\n"
-                    << "6: if you want to multiply a constant\n" << "7: if you want to calculate the current polynomial\n"
-                    << "8: if you want to clear the current polynomial\n" << "-1: if you want to finish\n";
-                std::cout << "Enter your selection: ";
+                std::cout << "Result\n" << curr << "\n";
+                std::cout << str_chois_action;
                 std::cin >> flag;
                 std::cout << "\n";
                 break;
@@ -86,13 +77,8 @@ void main()
                 std::cin >> temp_const;
                 std::cout << "\n";
                 curr = curr + temp_const;
-                std::cout << "Result\n" << curr;
-                std::cout << "Choose what you want to do:\n" << "Enter:\n" << "1: if you want to add a polynomial\n"
-                    << "2: if you want to substruct a polynomial\n" << "3: if you want to multiply a polynomial\n"
-                    << "4: if you want to add a constant\n" << "5: if you want to substruct a constant\n"
-                    << "6: if you want to multiply a constant\n" << "7: if you want to calculate the current polynomial\n"
-                    << "8: if you want to clear the current polynomial\n" << "-1: if you want to finish\n";
-                std::cout << "Enter your selection: ";
+                std::cout << "Result\n" << curr << "\n";
+                std::cout << str_chois_action;
                 std::cin >> flag;
                 std::cout << "\n";
                 break;
@@ -101,13 +87,8 @@ void main()
                 std::cin >> temp_const;
                 std::cout << "\n";
                 curr = curr - temp_const;
-                std::cout << "Result\n" << curr;
-                std::cout << "Choose what you want to do:\n" << "Enter:\n" << "1: if you want to add a polynomial\n"
-                    << "2: if you want to substruct a polynomial\n" << "3: if you want to multiply a polynomial\n"
-                    << "4: if you want to add a constant\n" << "5: if you want to substruct a constant\n"
-                    << "6: if you want to multiply a constant\n" << "7: if you want to calculate the current polynomial\n"
-                    << "8: if you want to clear the current polynomial\n" << "-1: if you want to finish\n";
-                std::cout << "Enter your selection: ";
+                std::cout << "Result\n" << curr << "\n";
+                std::cout << str_chois_action;
                 std::cin >> flag;
                 std::cout << "\n";
                 break;
@@ -116,13 +97,8 @@ void main()
                 std::cin >> temp_const;
                 std::cout << "\n";
                 curr = curr * temp_const;
-                std::cout << "Result\n" << curr;
-                std::cout << "Choose what you want to do:\n" << "Enter:\n" << "1: if you want to add a polynomial\n"
-                    << "2: if you want to substruct a polynomial\n" << "3: if you want to multiply a polynomial\n"
-                    << "4: if you want to add a constant\n" << "5: if you want to substruct a constant\n"
-                    << "6: if you want to multiply a constant\n" << "7: if you want to calculate the current polynomial\n"
-                    << "8: if you want to clear the current polynomial\n" << "-1: if you want to finish\n";
-                std::cout << "Enter your selection: ";
+                std::cout << "Result\n" << curr << "\n";
+                std::cout << str_chois_action;
                 std::cin >> flag;
                 std::cout << "\n";
                 break;
@@ -138,11 +114,7 @@ void main()
                 std::cout << "\n";
                 res = curr(x, y, z);
                 std::cout<<"Calculation result: " << res<<"\n";
-                std::cout << "Choose what you want to do:\n" << "Enter:\n" << "1: if you want to add a polynomial\n"
-                    << "2: if you want to substruct a polynomial\n" << "3: if you want to multiply a polynomial\n"
-                    << "4: if you want to add a constant\n" << "5: if you want to substruct a constant\n"
-                    << "6: if you want to multiply a constant\n" << "7: if you want to calculate the current polynomial\n"
-                    << "8: if you want to clear the current polynomial\n" << "-1: if you want to finish\n";
+                std::cout << str_chois_action;
                 std::cout << "Enter your selection: ";
                 std::cin >> flag;
                 std::cout << "\n";
