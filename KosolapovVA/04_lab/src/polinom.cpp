@@ -109,7 +109,7 @@ Polinom Polinom::operator+(const Polinom& pol)
     res.set_str();
     return res;
 }
-Polinom Polinom::operator-(const Polinom& pol) // TODO: p1+p2*(-1.0)
+Polinom Polinom::operator-(const Polinom& pol)
 {
     Polinom res(*this);
     res = res + (pol * (-1.0));
@@ -159,7 +159,7 @@ Polinom Polinom::operator+(const Monom& m)
     res.set_str();
     return res;
 }
-Polinom Polinom::operator-(const Monom& m) // TODO: p+m*(-1.0)
+Polinom Polinom::operator-(const Monom& m)
 {
     Polinom res;
     Polinom pol(*this);
@@ -183,7 +183,7 @@ Polinom Polinom::operator*(const Monom& m)
     return res;
 }
 
-Polinom Polinom::operator+(double c) // TODO: p+tres
+Polinom Polinom::operator+(double c)
 {
     Polinom res;
     Polinom tmp1(*this);
@@ -191,7 +191,7 @@ Polinom Polinom::operator+(double c) // TODO: p+tres
     res = tmp1 + tres;
     return res;
 }
-Polinom Polinom::operator-(double c) // TODO: p-tres
+Polinom Polinom::operator-(double c)
 {
     Polinom res;
     Polinom tmp1(*this);
