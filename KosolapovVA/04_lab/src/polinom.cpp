@@ -11,10 +11,10 @@ Polinom::Polinom(const std::string& str)
     char l_var;
     int sgn = 1;
     for (int i = 0; i < str.size(); i++)          
-    {                                                   //-1 start  // 5 ^  
-        flag = l_symb;                                  // 1 coef   // 6 symb         
-        switch (flag)                                   // 2 oper   
-        {                                               // 3 degree    
+    {                                                   
+        flag = l_symb;                                          
+        switch (flag)                                    
+        {                                                 
         case -1:      
             Check_start(l_symb,str[i],temp_coef, l_var, tmp_2, sgn);            
             break;

@@ -12,12 +12,12 @@ bool check_Oper(char s) //
     return (s == '+' || s == '-');
 }
 
-void Monom_to_list(double& temp_coef, int& temp_degree, RingList<Monom>& tmp_1, int sgn)
+void Monom_to_list(double& temp_coef, int& temp_degree,
+    RingList<Monom>& tmp_1, int sgn)
 {
     temp_coef *= sgn;
     if (tmp_1.SearchKey(temp_degree) != nullptr)
     {
-        //tmp_1.SearchKey(temp_degree);
         temp_coef += tmp_1.GetCurr().coef;
         tmp_1.Remove(temp_degree);
     }
@@ -31,7 +31,8 @@ void Monom_to_list(double& temp_coef, int& temp_degree, RingList<Monom>& tmp_1, 
             int curr_key = tmp_1.GetCurr().degree;
             if (curr_key > temp_degree)
             {
-                tmp_1.PushBeforeKey(Monom(temp_coef, temp_degree), temp_degree, curr_key);
+                tmp_1.PushBeforeKey(Monom(temp_coef, temp_degree),
+                    temp_degree, curr_key);
                 return;
             }
             tmp_1.Next();
@@ -40,7 +41,8 @@ void Monom_to_list(double& temp_coef, int& temp_degree, RingList<Monom>& tmp_1, 
     }
 }
 
-void Check_start(int& l_symb, char str, double& temp_coef, char& l_var, std::string& tmp_2, int& sgn)
+void Check_start(int& l_symb, char str, double& temp_coef,
+    char& l_var, std::string& tmp_2, int& sgn)
 {
     if (check_Numb(str))
     {
@@ -64,7 +66,8 @@ void Check_start(int& l_symb, char str, double& temp_coef, char& l_var, std::str
     else
         throw std::exception("Incorrect polinom form");
 }
-void Check_after_coef(int& l_symb, char str, std::string& tmp_2, double& temp_coef, int& temp_degree, RingList<Monom>& tmp_1, int& sgn)
+void Check_after_coef(int& l_symb, char str, std::string& tmp_2,
+    double& temp_coef, int& temp_degree, RingList<Monom>& tmp_1, int& sgn)
 {
     if (check_Numb(str))
     {
@@ -92,7 +95,8 @@ void Check_after_coef(int& l_symb, char str, std::string& tmp_2, double& temp_co
     else
         throw std::exception("Incorrect polinom form");
 }
-void Check_after_oper(int& l_symb, char str, double& temp_coef, char& l_var, std::string& tmp_2)
+void Check_after_oper(int& l_symb, char str, double& temp_coef,
+    char& l_var, std::string& tmp_2)
 {
     if (check_Numb(str))
     {
@@ -110,7 +114,8 @@ void Check_after_oper(int& l_symb, char str, double& temp_coef, char& l_var, std
         throw std::exception("Incorrect polinom form");
     }
 }
-void Check_after_degree(int& l_symb, char str, double& temp_coef, int& temp_degree, RingList<Monom>& tmp_1, int& sgn)
+void Check_after_degree(int& l_symb, char str, double& temp_coef,
+    int& temp_degree, RingList<Monom>& tmp_1, int& sgn)
 {
     if (check_Oper(str))
     {
@@ -164,7 +169,8 @@ void Check_after_exp(int& l_symb, char str, char& l_var, int& temp_degree)
     else
         throw std::exception("Incorrect polinom form");
 }
-void Check_after_symb(int& l_symb, char str, char& l_var, double& temp_coef, int& temp_degree, RingList<Monom>& tmp_1, int& sgn)
+void Check_after_symb(int& l_symb, char str, char& l_var, double& temp_coef,
+    int& temp_degree, RingList<Monom>& tmp_1, int& sgn)
 {
     if (str == '^')
     {
