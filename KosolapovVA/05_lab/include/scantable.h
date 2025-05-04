@@ -54,7 +54,7 @@ TabRecord<TKey, TData>* ScanTable<TKey, TData>::Find(TKey k)
     {
         if (recs[i]->key == k)
         {
-            currpos = i;
+            curr_pos = i;
             return recs[i];
         }
     }
@@ -68,7 +68,7 @@ void ScanTable<TKey, TData>::Remove(TKey key)
     if (rec == nullptr)
         throw std::exception("Error: the key not found in this table");
     delete rec;
-    recs[currpos] = recs[--count];
+    recs[curr_pos] = recs[--count];
 }
 template <typename TKey, typename TData>
 void ScanTable<TKey, TData>::Insert(TabRecord<TKey, TData>* trec)

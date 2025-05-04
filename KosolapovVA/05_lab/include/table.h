@@ -18,8 +18,6 @@ public:
     virtual TabRecord<TKey, TData>* Find(TKey key) = 0;
     virtual void Insert(TabRecord<TKey, TData>* tr) = 0;
     virtual void Remove(TKey key) = 0;
-
-    //virtual TabRecord<TKey, TData>* GetCurr() const = 0;
     bool IsEmpty() const { return count == 0; }
     bool IsFull() const { return count == max_sz; }
     virtual bool Reset();

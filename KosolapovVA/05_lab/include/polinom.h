@@ -20,7 +20,7 @@ public:
     };
 	Polinom(const std::string& str);
 	Polinom(const Polinom& pol) :monom(pol.monom), polinom(pol.polinom){};
-
+    std::string GetStr() { return polinom; };
 
     double operator()(double x, double y, double z) const;
 

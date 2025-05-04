@@ -40,7 +40,7 @@ template <typename TKey, typename TData>
 TabRecord<TKey, TData>* SortedTable<TKey, TData>::Find(TKey key)
 {
     int left = 0, right = count - 1;
-    TabRecord<TKey, TData> res = nullptr;
+    TabRecord<TKey, TData>* res = nullptr;
     while (left <= right)
     {
         int mid = (left + right) / 2;
@@ -52,11 +52,11 @@ TabRecord<TKey, TData>* SortedTable<TKey, TData>::Find(TKey key)
         }
         else if (recs[mid]->key < key)
             left = mid + 1;
-        else
+        else if (recs[mid]->key > key)
             right = mid - 1;
     }
     curr_pos = right;
-    return answ;
+    return res;
 }
 
 template <typename TKey, typename TData>
@@ -68,12 +68,12 @@ void SortedTable<TKey, TData>::Remove(TKey key)
     delete rec;
     for (int i = curr_pos; i < count; i++)
     {
-        recs[i]=recs[i+1]
+        recs[i] = recs[i + 1];
     }
     count--;
 }
 template <typename TKey, typename TData>
-void SortedTable<TKey, TData>::Insert(TabRecord<TKey, TData>* trec)
+void SortedTable<TKey, TData>::Insert(TabRecord<TKey, TData>* tr)
 {
     if (count == 0) 
     {
@@ -83,12 +83,17 @@ void SortedTable<TKey, TData>::Insert(TabRecord<TKey, TData>* trec)
     }
     if (IsFull())
         throw std::exception("Error: table is full");
-    Find(trec->key);
+    Find(tr->key);
+    if (curr_pos == count) {
+        recs[count] = tr;
+        count++;
+        return;
+    }
+    count++;
     for (int i = count - 1; i > curr_pos; i--)
     {
         recs[i + 1] = recs[i];
     }
-    count++;
-    recs[curr_pos] = trec;
+    recs[curr_pos+1] = tr;
 }
 #endif // !SORTEDTABLE_H

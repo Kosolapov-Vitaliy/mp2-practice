@@ -8,8 +8,8 @@ class TabRecord {
 public:
     TKey key;
     TData* data;
-    TabRecord(TKey _key, TData* _data) :
-        key(_key), data(_data) {};
+    TabRecord(TKey t_key, TData* t_data) :
+        key(t_key), data(t_data) {};
     TabRecord(const TabRecord<TKey, TData>& tr) :
         key(tr.key), data(tr.data) {};
 };

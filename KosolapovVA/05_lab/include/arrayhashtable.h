@@ -23,6 +23,7 @@ public:
     void Next();
     bool IsTabEnd();
     bool Reset();
+    TabRecord<TKey, TData>* GetCurr() const { return recs[curr_pos]; };
 };
 
 template <typename TKey, typename TData>
