@@ -11,8 +11,8 @@ class SortedTable :public ScanTable<TKey, TData>
 protected:
     void sort();
 public:
-    SortedTable(int mxs) :ScanTable<TKey,TData>(mxs) {};
-    SortedTable(const SortedTable<TKey, TData>& srt) :ScanTable<TKey, TData>(srt) {};
+    SortedTable(int mxs);
+    SortedTable(const SortedTable<TKey, TData>& srt);
     SortedTable(const ScanTable<TKey, TData>& sct);
     TabRecord<TKey, TData>* Find(TKey key);
     void Remove(TKey key);
@@ -25,8 +25,29 @@ void SortedTable<TKey, TData>::sort()
     std::sort(recs, recs + count, 
         [](TabRecord<TKey, TData>* a, TabRecord<TKey, TData>* b)
         {
-            return a.key < b.key;
+            return a->key < b->key;
         });
+}
+
+template <typename TKey, typename TData>
+SortedTable<TKey, TData>::SortedTable(int mxs) :ScanTable<TKey, TData>(mxs)
+{
+    for (int i = 0; i < max_sz; i++)
+    {
+        recs[i] = nullptr;
+    }
+}
+
+template <typename TKey, typename TData>
+SortedTable<TKey, TData>::SortedTable(const SortedTable<TKey, TData>& srt) 
+    :SortedTable<TKey, TData>(srt.max_sz)
+{
+    count = srt.count;
+    for (int i = 0; i < count; i++)
+    {
+        recs[i] = new TabRecord<TKey, TData>
+            (srt.recs[i]->key, srt.recs[i]->data);
+    }
 }
 
 template <typename TKey, typename TData>
@@ -37,22 +58,22 @@ SortedTable<TKey, TData>::SortedTable(const ScanTable<TKey, TData>& sct)
 }
 
 template <typename TKey, typename TData>
-TabRecord<TKey, TData>* SortedTable<TKey, TData>::Find(TKey key)
+TabRecord<TKey, TData>* SortedTable<TKey, TData>::Find(TKey _key)
 {
     int left = 0, right = count - 1;
     TabRecord<TKey, TData>* res = nullptr;
     while (left <= right)
     {
         int mid = (left + right) / 2;
-        if (recs[mid]->key == key)
+        if (recs[mid]->key == _key)
         {
             left = mid + 1;
             right = mid;
             res = recs[mid];
         }
-        else if (recs[mid]->key < key)
+        else if (recs[mid]->key < _key)
             left = mid + 1;
-        else if (recs[mid]->key > key)
+        else if (recs[mid]->key > _key)
             right = mid - 1;
     }
     curr_pos = right;

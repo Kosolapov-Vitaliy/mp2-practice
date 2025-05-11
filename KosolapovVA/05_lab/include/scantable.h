@@ -29,7 +29,7 @@ ScanTable<TKey, TData>::ScanTable(int msz) : Table<TKey, TData>(msz)
 
 template <typename TKey, typename TData>
 ScanTable<TKey, TData>::ScanTable(const ScanTable<TKey, TData>& std)
-    : ScanTable(std.maxsz)
+    : ScanTable(std.max_sz)
 {
     this->count = std.count;
     for (int i = 0; i < this->count; i++)
