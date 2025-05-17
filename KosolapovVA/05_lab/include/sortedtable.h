@@ -61,23 +61,21 @@ template <typename TKey, typename TData>
 TabRecord<TKey, TData>* SortedTable<TKey, TData>::Find(TKey _key)
 {
     int left = 0, right = count - 1;
-    TabRecord<TKey, TData>* res = nullptr;
     while (left <= right)
     {
         int mid = (left + right) / 2;
         if (recs[mid]->key == _key)
         {
-            left = mid + 1;
-            right = mid;
-            res = recs[mid];
+            curr_pos = mid;
+            return recs[mid];
         }
         else if (recs[mid]->key < _key)
             left = mid + 1;
-        else if (recs[mid]->key > _key)
+        else 
             right = mid - 1;
     }
     curr_pos = right;
-    return res;
+    return nullptr;
 }
 
 template <typename TKey, typename TData>
@@ -110,11 +108,12 @@ void SortedTable<TKey, TData>::Insert(TabRecord<TKey, TData>* tr)
         count++;
         return;
     }
-    count++;
-    for (int i = count - 1; i > curr_pos; i--)
+    curr_pos++;
+    for (int i = count; i > curr_pos; i--)
     {
-        recs[i + 1] = recs[i];
+        recs[i] = recs[i-1];
     }
-    recs[curr_pos+1] = tr;
+    recs[curr_pos] = tr;
+    count++;
 }
 #endif // !SORTEDTABLE_H
