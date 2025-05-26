@@ -227,6 +227,7 @@ void main()
                     if (ch_op == 4)
                     {
                         flag = 0;
+                        op_status = 0;
                         break;
                     }
                 }
@@ -298,6 +299,7 @@ void main()
                 std::cout << "Choose what to do with the result: "
                     <<"| 1. if you want insert result | 2. nothing |:";
                 std::cin >> ch_res;
+                op_status = 0;
                 if (ch_res == 1)
                     flag = 8;
                 else
@@ -310,6 +312,7 @@ void main()
                 std::cout << "Choose what to do with the result: "
                     << "| 1. if you want insert result | 2. nothing |:";
                 std::cin >> ch_res;
+                op_status = 0;
                 if (ch_res == 1)
                     flag = 8;
                 else
@@ -322,6 +325,7 @@ void main()
                 std::cout << "Choose what to do with the result: "
                     << "| 1. if you want insert result | 2. nothing |:";
                 std::cin >> ch_res;
+                op_status = 0;
                 if (ch_res == 1)
                     flag = 8;
                 else

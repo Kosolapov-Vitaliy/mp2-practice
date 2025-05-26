@@ -73,7 +73,10 @@ std::string Monom::Monom_to_str() const {
     }
     int tmp = degree;
     if (tmp / 100!=0) {
-
+        if (coef != 1 && coef != -1)
+        {
+            res += "*";
+        }
         if ((tmp / 100) == 1) {
             res += "x";
         }
@@ -85,7 +88,10 @@ std::string Monom::Monom_to_str() const {
         }
     }
     if ((tmp/10)%10!=0) {
-
+        if (tmp / 100 != 0 || (coef != 1 && coef != -1))
+        {
+            res += "*";
+        }
         if (((tmp / 10) % 10) == 1) {
             res += "y";
         }
@@ -96,6 +102,10 @@ std::string Monom::Monom_to_str() const {
         }
     }
     if (tmp % 100%10!=0) {
+        if (tmp / 100 != 0 || (tmp / 10) % 10 != 0 ||(coef != 1 && coef != -1))
+        {
+            res += "*";
+        }
         if ((tmp % 100%10) == 1) {
             res += "z";
         }
