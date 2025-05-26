@@ -94,12 +94,6 @@ void SortedTable<TKey, TData>::Remove(TKey key)
 template <typename TKey, typename TData>
 void SortedTable<TKey, TData>::Insert(TabRecord<TKey, TData>* tr)
 {
-    if (count == 0) 
-    {
-        recs[0] = tr;
-        count++;
-        return;
-    }
     if (IsFull())
         throw std::exception("Error: table is full");
     Find(tr->key);

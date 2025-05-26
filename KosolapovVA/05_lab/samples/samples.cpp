@@ -2,6 +2,131 @@
 #include "arrayhashtable.h"
 #include "sortedtable.h"
 #include <iomanip>
+void OutAllTab(ScanTable<std::string, Polinom>& scan_t,
+    SortedTable<std::string, Polinom>& sort_t,
+    ArrayHashTable<std::string, Polinom>& ahash_t)
+{
+    scan_t.Reset(); sort_t.Reset(); ahash_t.Reset();
+    std::cout << "\n";
+    while (!scan_t.IsTabEnd() || !sort_t.IsTabEnd() || !ahash_t.IsTabEnd())
+    {
+        std::cout << "|";
+        if (!scan_t.IsTabEnd())
+        {
+            std::cout << scan_t.GetCurr()->key;
+            scan_t.Next();
+        }
+        else
+            std::cout << " - ";
+        std::cout << std::setw(10) << "|";
+        if (!sort_t.IsTabEnd())
+        {
+            std::cout << sort_t.GetCurr()->key;
+            sort_t.Next();
+        }
+        else
+            std::cout << " - ";
+        std::cout << std::setw(10) << "|";
+        if (!ahash_t.IsTabEnd())
+        {
+            std::cout << ahash_t.GetCurr()->key;
+            ahash_t.Next();
+        }
+        else
+            std::cout << " - ";
+        std::cout << std::setw(10) << "|\n";
+    }
+    std::cout << "\n";
+}
+void Cas1(int ch_table, ScanTable<std::string, Polinom>& scan_t,
+    SortedTable<std::string, Polinom>& sort_t,
+    ArrayHashTable<std::string, Polinom> & ahash_t)
+{
+    std::string temp;
+    std::cout << "Enter polynom to insert: ";
+    std::cin >> temp;
+    switch (ch_table)
+    {
+    case 1:
+        scan_t.Insert(new TabRecord<std::string, Polinom>
+            (temp, new Polinom(temp)));
+        break;
+    case 2:
+        sort_t.Insert(new TabRecord<std::string, Polinom>
+            (temp, new Polinom(temp)));
+        break;
+    case 3:
+        ahash_t.Insert(new TabRecord<std::string, Polinom>
+            (temp, new Polinom(temp)));
+        break;
+    case 4:
+        scan_t.Insert(new TabRecord<std::string, Polinom>
+            (temp, new Polinom(temp)));
+        sort_t.Insert(new TabRecord<std::string, Polinom>
+            (temp, new Polinom(temp)));
+        ahash_t.Insert(new TabRecord<std::string, Polinom>
+            (temp, new Polinom(temp)));
+        break;
+    }
+    OutAllTab(scan_t, sort_t, ahash_t);
+}
+void Cas2(int ch_table, ScanTable<std::string, Polinom>& scan_t,
+    SortedTable<std::string, Polinom>& sort_t,
+    ArrayHashTable<std::string, Polinom>& ahash_t)
+{
+    std::string temp;
+    std::cout << "Enter polynom to remove: ";
+    std::cin >> temp;
+    switch (ch_table)
+    {
+    case 1:
+        scan_t.Remove(temp);
+        break;
+    case 2:
+        sort_t.Remove(temp);
+        break;
+    case 3:
+        ahash_t.Remove(temp);
+        break;
+    case 4:
+        if(scan_t.Find(temp)!= nullptr)
+            scan_t.Remove(temp);
+        if (sort_t.Find(temp) != nullptr)
+            sort_t.Remove(temp);
+        if (ahash_t.Find(temp) != nullptr)
+            ahash_t.Remove(temp);
+        break;
+    }
+    OutAllTab(scan_t, sort_t, ahash_t);
+}
+int PolCheck(TabRecord<std::string, Polinom>* tr_t)
+{
+    int flag;
+    if (tr_t != nullptr)
+    {
+        std::cout << "Polynom was found\n";
+        flag = 4;
+    }
+    else
+    {
+        std::cout << "Polynom wasnot found\n";
+        flag = 0;
+    }
+    return flag;
+}
+bool CorFlag(int flag)
+{
+    return flag == 0 
+        || flag == 1 || flag == 2 
+        || flag == 3 || flag == 4 
+        || flag == 5 || flag == 6 
+        || flag == 7 || flag == 8;
+}
+bool CorChTab(int ch_table)
+{
+    return ch_table == 1 || ch_table == 2 ||
+        ch_table == 3 || ch_table == 4 || ch_table == 0;
+}
 void main()
 {
     try
@@ -22,11 +147,13 @@ void main()
             (p_sort, new Polinom(p_sort)));
         ahash_t.Insert(new TabRecord<std::string, Polinom>
             (p_ahash, new Polinom(p_ahash)));
+        std::cout << "\n";
         std::cout << "|" << scan_t.GetCurr()->key << std::setw(10) << "|"
             << sort_t.GetCurr()->key << std::setw(10) << "|"
             << ahash_t.GetCurr()->key << std::setw(10) << "|\n";
+        std::cout << "\n";
         int flag = 0;
-        int ch_table;
+        int ch_table = 0;
         int ch_op;
         int ch_res;
         bool op_status = 0;
@@ -37,7 +164,7 @@ void main()
         Polinom pol_1;
         Polinom pol_2;
         Polinom res;
-        while (flag != -1)
+        while (CorChTab(ch_table)&&CorFlag(flag))
         {
             switch (flag)
             {
@@ -52,103 +179,11 @@ void main()
                 std::cin >> ch_table;
                 break;
             case 1:
-                std::cout << "Enter polynom to insert: ";
-                std::cin >> temp;
-                switch (ch_table)
-                {
-                case 1:
-                    scan_t.Insert(new TabRecord<std::string, Polinom>
-                        (temp, new Polinom(temp)));
-                    break;
-                case 2:
-                    sort_t.Insert(new TabRecord<std::string, Polinom>
-                        (temp, new Polinom(temp)));
-                    break;
-                case 3:
-                    ahash_t.Insert(new TabRecord<std::string, Polinom>
-                        (temp, new Polinom(temp)));
-                    break;
-                case 4:
-                    scan_t.Insert(new TabRecord<std::string, Polinom>
-                        (temp, new Polinom(temp)));
-                    sort_t.Insert(new TabRecord<std::string, Polinom>
-                        (temp, new Polinom(temp)));
-                    ahash_t.Insert(new TabRecord<std::string, Polinom>
-                        (temp, new Polinom(temp)));
-                    break;
-                }
-                scan_t.Reset(); sort_t.Reset(); ahash_t.Reset();
-                while (!scan_t.IsTabEnd() || !sort_t.IsTabEnd() || !ahash_t.IsTabEnd())
-                {
-                    std::cout << "|";
-                    if (!scan_t.IsTabEnd())
-                    {
-                        std::cout << scan_t.GetCurr()->key;
-                        scan_t.Next();
-                    }
-                    else
-                        std::cout << " - ";
-                    std::cout << std::setw(10) << "|";
-                    if (!sort_t.IsTabEnd())
-                    {
-                        std::cout << sort_t.GetCurr()->key;
-                        sort_t.Next();
-                    }
-                    else
-                        std::cout << " - ";
-                    std::cout << std::setw(10) << "|";
-                    if (!ahash_t.IsTabEnd())
-                    {
-                        std::cout << ahash_t.GetCurr()->key;
-                        ahash_t.Next();
-                    }
-                    else
-                        std::cout << " - ";
-                    std::cout << std::setw(10) << "|\n";
-                }
+                Cas1(ch_table, scan_t, sort_t, ahash_t);                
                 flag = 0;
                 break;
             case 2:
-                std::cout << "Enter polynom to remove: ";
-                std::cin >> temp;
-                switch (ch_table)
-                {
-                case 1:
-                    scan_t.Remove(temp);
-                    break;
-                case 2:
-                    sort_t.Remove(temp);
-                    break;
-                case 3:
-                    ahash_t.Remove(temp);
-                    break;
-                case 4:
-                    scan_t.Remove(temp);
-                    sort_t.Remove(temp);
-                    ahash_t.Remove(temp);
-                    break;
-                }
-                scan_t.Reset(); sort_t.Reset(); ahash_t.Reset();
-                while (!scan_t.IsTabEnd() || !sort_t.IsTabEnd() || !ahash_t.IsTabEnd())
-                {
-                    std::cout << "|";
-                    if (!scan_t.IsTabEnd())
-                        std::cout << scan_t.GetCurr()->key;
-                    else
-                        std::cout << " - ";
-                    std::cout << std::setw(10) << "|";
-                    if (!sort_t.IsTabEnd())
-                        std::cout << sort_t.GetCurr()->key;
-                    else
-                        std::cout << " - ";
-                    std::cout << std::setw(10) << "|";
-                    if (!ahash_t.IsTabEnd())
-                        std::cout << ahash_t.GetCurr()->key;
-                    else
-                        std::cout << " - ";
-                    std::cout << std::setw(10) << "|\n";
-                    scan_t.Next(); sort_t.Next(); ahash_t.Next();
-                }
+                Cas2(ch_table, scan_t, sort_t, ahash_t);
                 flag = 0;
                 break;
             case 3:
@@ -158,42 +193,15 @@ void main()
                 {
                 case 1:
                     tr_scan = scan_t.Find(temp);
-                    if (tr_scan != nullptr)
-                    {
-                        std::cout << "Polynom was found\n";
-                        flag = 4;
-                    }
-                    else
-                    {
-                        std::cout << "Polynom wasnot found\n";
-                        flag = 0;
-                    }
+                    flag = PolCheck(tr_scan);
                     break;
                 case 2:
                     tr_sort = sort_t.Find(temp);
-                    if (tr_sort != nullptr)
-                    {
-                        std::cout << "Polynom was found\n";
-                        flag = 4;
-                    }
-                    else
-                    {
-                        std::cout << "Polynom wasnot found\n";
-                        flag = 0;
-                    }
+                    flag = PolCheck(tr_sort);
                     break;
                 case 3:
                     tr_ahash = ahash_t.Find(temp);
-                    if (tr_ahash != nullptr)
-                    {
-                        std::cout << "Polynom was found\n";
-                        flag = 4;
-                    }
-                    else
-                    {
-                        std::cout << "Polynom wasnot found\n";
-                        flag = 0;
-                    }
+                    flag = PolCheck(tr_ahash);
                     break;
                 case 4:
                     tr_scan = scan_t.Find(temp);
@@ -294,7 +302,7 @@ void main()
                 break;
             case 5:
                 res = pol_1 + pol_2;
-                std::cout << "Result polynom: ";
+                std::cout << "\n" << "\n" << "Result polynom: ";
                 std::cout<< res<<"\n";
                 std::cout << "Choose what to do with the result: "
                     <<"| 1. if you want insert result | 2. nothing |:";
@@ -307,7 +315,7 @@ void main()
                 break;
             case 6:
                 res = pol_1 - pol_2;
-                std::cout << "Result polynom: ";
+                std::cout << "\n" << "\n" << "Result polynom: ";
                 std::cout << res << "\n";
                 std::cout << "Choose what to do with the result: "
                     << "| 1. if you want insert result | 2. nothing |:";
@@ -320,7 +328,7 @@ void main()
                 break;
             case 7:
                 res = pol_1 * pol_2;
-                std::cout << "Result polynom: ";
+                std::cout << "\n" << "\n" << "Result polynom: ";
                 std::cout << res << "\n";
                 std::cout << "Choose what to do with the result: "
                     << "| 1. if you want insert result | 2. nothing |:";
@@ -358,35 +366,7 @@ void main()
                         (res.GetStr(), new Polinom(res)));
                     break;
                 }
-                scan_t.Reset(); sort_t.Reset(); ahash_t.Reset();
-                while (!scan_t.IsTabEnd() || !sort_t.IsTabEnd() || !ahash_t.IsTabEnd())
-                {
-                    std::cout << "|";
-                    if (!scan_t.IsTabEnd())
-                    {
-                        std::cout << scan_t.GetCurr()->key;
-                        scan_t.Next();
-                    }
-                    else
-                        std::cout << " - ";
-                    std::cout << std::setw(10) << "|";
-                    if (!sort_t.IsTabEnd())
-                    {
-                        std::cout << sort_t.GetCurr()->key;
-                        sort_t.Next();
-                    }
-                    else
-                        std::cout << " - ";
-                    std::cout << std::setw(10) << "|";
-                    if (!ahash_t.IsTabEnd())
-                    {
-                        std::cout << ahash_t.GetCurr()->key;
-                        ahash_t.Next();
-                    }
-                    else
-                        std::cout << " - ";
-                    std::cout << std::setw(10) << "|\n";
-                }
+                OutAllTab(scan_t, sort_t, ahash_t);
                 flag = 0;
                 break;
             }

@@ -47,6 +47,7 @@ ArrayHashTable<TKey, TData>::ArrayHashTable
     for (int i = 0; i < max_sz; i++)
     {
         if (aht.recs[i] == nullptr) { continue; }
+        if (aht.recs[i] == aht.pMark) { recs[i] = pMark; }
         recs[i] = new TabRecord<TKey, TData>(aht.recs[i]->key, aht.recs[i]->data);
     }
 }
@@ -56,7 +57,7 @@ ArrayHashTable<TKey, TData>::~ArrayHashTable()
 {
     for (int i = 0; i < max_sz; i++)
     {
-        if (recs[i] == pMark) { continue; }
+        if (recs[i] == nullptr || recs[i] == pMark) { continue; }
         delete recs[i];
     }
     delete[] recs;
